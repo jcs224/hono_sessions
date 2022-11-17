@@ -1,7 +1,7 @@
 import Session from './session.ts'
 import { nanoid } from 'https://deno.land/x/nanoid@v3.0.0/async.ts'
-import { Handler } from 'http://deno.land/x/hono@v2.5.1/mod.ts'
-import Store from './store.ts'
+import { Handler } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
+import Store from './store/store.ts'
 
 export function sessionMiddleware(store: Store) {
 
