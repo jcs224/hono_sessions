@@ -6,12 +6,25 @@ import { sessionMiddleware } from './middleware.ts'
 const app = new Hono()
 const store = new MemoryStore
 
-app.use(sessionMiddleware(store))
-
-app.get('/', (c) => {
+app.post('/increment', sessionMiddleware(store), (c) => {
   const session = c.get('session')
-  session.set('count', (session.get('count') || 0) + 1)
+  session.set('count', session.get('count') + 1)
+  return c.redirect('/')
+})
+
+app.post('/decrement', sessionMiddleware(store), (c) => {
+  const session = c.get('session')
+  session.set('count', session.get('count') - 1)
+  return c.redirect('/')
+})
+
+app.get('/', sessionMiddleware(store), (c) => {
+  const session = c.get('session')
   
+  if (!session.get('count')) {
+    session.set('count', 0)
+  }
+
   return c.html(`<!DOCTYPE html>
   <html lang="en">
   <head>
@@ -23,6 +36,12 @@ app.get('/', (c) => {
   <body>
     <h1>Counter</h1>
     <p>You've visited ${ session.get('count') } times</p>
+    <form action="/increment" method="post">
+      <button type="submit">Increment</button>
+    </form>
+    <form action="/decrement" method="post">
+      <button type="submit">Decrement</button>
+    </form>
   </body>
   </html>`)
 })
