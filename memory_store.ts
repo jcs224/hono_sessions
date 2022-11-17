@@ -1,11 +1,13 @@
-class MemoryStore {
+import Store from './store.ts'
+
+class MemoryStore implements Store {
   private data: Map<string, Record<string, unknown>>
 
   constructor() {
     this.data = new Map
   }
 
-  getSessionByID(sid: string) {
+  getSessionById(sid: string) {
     return this.data.has(sid) ? this.data.get(sid) : null
   }
 
