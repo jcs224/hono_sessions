@@ -1,10 +1,11 @@
 import { Hono } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
 import { serve } from 'https://deno.land/std@0.164.0/http/server.ts'
 import MemoryStore from './store/memory_store.ts'
+import CookieStore from './store/cookie_store.ts'
 import { session } from './middleware.ts'
 
 const app = new Hono()
-const store = new MemoryStore
+const store = new CookieStore
 
 app.post('/increment', session(store), (c) => {
   const session = c.get('session')
