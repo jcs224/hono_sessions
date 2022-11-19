@@ -1,24 +1,24 @@
 import { Hono } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
 import { serve } from 'https://deno.land/std@0.164.0/http/server.ts'
 import MemoryStore from './store/memory_store.ts'
-import { sessionMiddleware } from './middleware.ts'
+import { session } from './middleware.ts'
 
 const app = new Hono()
 const store = new MemoryStore
 
-app.post('/increment', sessionMiddleware(store), (c) => {
+app.post('/increment', session(store), (c) => {
   const session = c.get('session')
   session.set('count', session.get('count') + 1)
   return c.redirect('/')
 })
 
-app.post('/decrement', sessionMiddleware(store), (c) => {
+app.post('/decrement', session(store), (c) => {
   const session = c.get('session')
   session.set('count', session.get('count') - 1)
   return c.redirect('/')
 })
 
-app.get('/', sessionMiddleware(store), (c) => {
+app.get('/', session(store), (c) => {
   const session = c.get('session')
   
   if (!session.get('count')) {
@@ -35,7 +35,7 @@ app.get('/', sessionMiddleware(store), (c) => {
   </head>
   <body>
     <h1>Counter</h1>
-    <p>You've visited ${ session.get('count') } times</p>
+    <p>Counter: ${ session.get('count') }</p>
     <form action="/increment" method="post">
       <button type="submit">Increment</button>
     </form>

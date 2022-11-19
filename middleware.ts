@@ -3,7 +3,7 @@ import { nanoid } from 'https://deno.land/x/nanoid@v3.0.0/async.ts'
 import { Handler } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
 import Store from './store/store.ts'
 
-export function sessionMiddleware(store: Store) {
+export function session(store: Store) {
 
   const middleware: Handler = async (c, next) => {
     const session = new Session
