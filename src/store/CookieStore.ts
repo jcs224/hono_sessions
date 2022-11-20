@@ -1,5 +1,5 @@
 import { Context } from '../../deps.ts'
-import { decryptFromBase64, encryptToBase64 } from '../Crypto.ts'
+import { decryptFromBase64, encryptToBase64 } from '../../mod.ts'
 
 interface CookieStoreOptions {
   encryptionKey?: CryptoKey | null

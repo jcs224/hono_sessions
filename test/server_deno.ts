@@ -1,7 +1,7 @@
 import { Hono } from 'https://esm.sh/hono@2.5.1'
 import { serve } from 'https://deno.land/std@0.164.0/http/server.ts'
 import { sessionMiddleware as session, CookieStore, MemoryStore } from '../mod.ts'
-import { createKeyFromBase64 } from '../src/Crypto.ts'
+import { createKeyFromBase64 } from '../mod.ts'
 import 'https://deno.land/std@0.165.0/dotenv/load.ts'
 
 const app = new Hono()

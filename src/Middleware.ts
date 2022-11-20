@@ -3,7 +3,7 @@ import { nanoid } from '../deps.ts'
 import { Handler } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
-import { decryptFromBase64, encryptToBase64 } from './Crypto.ts'
+import { decryptFromBase64, encryptToBase64 } from '../mod.ts'
 
 interface SessionOptions {
   store: Store | CookieStore

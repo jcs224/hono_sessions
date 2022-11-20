@@ -9,6 +9,7 @@ await build({
   shims: {
     // see JS docs for overview and more options
     // deno: true,
+    // crypto: true,
   },
   package: {
     // package.json properties
@@ -24,6 +25,9 @@ await build({
       url: "https://github.com/jcs224/hono-sessions/issues",
     },
   },
+  compilerOptions: {
+    lib: ['dom', 'es2022']
+  }
 });
 
 // post build steps
