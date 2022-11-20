@@ -1,4 +1,4 @@
-import Store from './store.ts'
+import Store from './Store.ts'
 
 class MemoryStore implements Store {
   private data: Map<string, Record<string, unknown>>
