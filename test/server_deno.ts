@@ -1,6 +1,6 @@
 import { Hono } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
 import { serve } from 'https://deno.land/std@0.164.0/http/server.ts'
-import { session, CookieStore, MemoryStore } from '../mod.ts'
+import { sessionMiddleware as session, CookieStore, MemoryStore } from '../mod.ts'
 
 const app = new Hono()
 const store = new CookieStore

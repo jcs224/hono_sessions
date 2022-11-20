@@ -4,7 +4,7 @@ import { Handler } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
 
-export function session(store: Store | CookieStore) {
+export function sessionMiddleware(store: Store | CookieStore) {
 
   const middleware: Handler = async (c, next) => {
     const session = new Session
