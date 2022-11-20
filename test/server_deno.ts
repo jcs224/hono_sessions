@@ -1,4 +1,4 @@
-import { Hono } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
+import { Hono } from 'https://esm.sh/hono@2.5.1'
 import { serve } from 'https://deno.land/std@0.164.0/http/server.ts'
 import { sessionMiddleware as session, CookieStore, MemoryStore } from '../mod.ts'
 
