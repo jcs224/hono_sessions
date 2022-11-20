@@ -22,16 +22,16 @@ export function sessionMiddleware(options: SessionOptions) {
   
     if (c.req.cookie('session')) {
       sid = encryptionKey ? await decryptFromBase64(encryptionKey, c.req.cookie('session')) : c.req.cookie('session')
-      session_data = (store instanceof CookieStore ? store.getSession(c) : store.getSessionById(sid)) as Record<string, unknown>
+      session_data = (store instanceof CookieStore ? await store.getSession(c) : store.getSessionById(sid)) as Record<string, unknown>
       if (!session_data) {
         sid = await nanoid(21)
         session_data = {}
-        store instanceof CookieStore ? store.createSession(c, session_data) : store.createSession(sid, session_data)
+        store instanceof CookieStore ? await store.createSession(c, session_data) : store.createSession(sid, session_data)
       }
     } else {
       sid = await nanoid(21)
       session_data = {}
-      store instanceof CookieStore ? store.createSession(c, session_data) : store.createSession(sid, session_data)
+      store instanceof CookieStore ? await store.createSession(c, session_data) : store.createSession(sid, session_data)
     }
   
     c.cookie('session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid)
@@ -41,7 +41,7 @@ export function sessionMiddleware(options: SessionOptions) {
     await next()
     
     const session_cache = session.getCache()
-    store instanceof CookieStore ? store.persistSessionData(c, session_cache) : store.persistSessionData(sid, session_cache)
+    store instanceof CookieStore ? await store.persistSessionData(c, session_cache) : store.persistSessionData(sid, session_cache)
   }
 
   return middleware

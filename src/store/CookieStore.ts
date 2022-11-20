@@ -1,22 +1,32 @@
 import { Context } from '../../deps.ts'
+import { decryptFromBase64, encryptToBase64 } from '../Crypto.ts'
 
+interface CookieStoreOptions {
+  encryptionKey?: CryptoKey | null
+}
 class CookieStore {
-  getSession(c: Context) {
-    return JSON.parse(c.req.cookie('session_data'))
+  private encryptionKey: CryptoKey | null | undefined
+
+  constructor(options?: CookieStoreOptions) {
+    this.encryptionKey = options?.encryptionKey
   }
 
-  createSession(c: Context, initial_data: Record<string, unknown>) {
+  async getSession(c: Context) {
+    return JSON.parse(this.encryptionKey ? await decryptFromBase64(this.encryptionKey, c.req.cookie('session_data')) : c.req.cookie('session_data'))
+  }
+
+  async createSession(c: Context, initial_data: Record<string, unknown>) {
     const stringified_data = JSON.stringify(initial_data)
-    c.cookie('session_data', stringified_data)
+    c.cookie('session_data', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
   }
 
-  deleteSession(c: Context) {
-    c.cookie('session_data', '')
+  async deleteSession(c: Context) {
+    c.cookie('session_data', this.encryptionKey ? await encryptToBase64(this.encryptionKey, '') : '')
   }
 
-  persistSessionData(c: Context, session_data: Record<string, unknown>) {
+  async persistSessionData(c: Context, session_data: Record<string, unknown>) {
     const stringified_data = JSON.stringify(session_data)
-    c.cookie('session_data', stringified_data)
+    c.cookie('session_data', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
   }
 }
 

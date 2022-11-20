@@ -5,11 +5,14 @@ import { createKeyFromBase64 } from '../src/Crypto.ts'
 import 'https://deno.land/std@0.165.0/dotenv/load.ts'
 
 const app = new Hono()
-const store = new CookieStore
 
 const key = Deno.env.get('APP_KEY') 
   ? await createKeyFromBase64(Deno.env.get('APP_KEY')) 
   : null
+
+const store = new CookieStore({
+  encryptionKey: key
+})
 
 const session_routes = new Hono()
 
