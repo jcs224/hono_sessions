@@ -1,4 +1,4 @@
-import { Context } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
+import { Context } from '../../deps.ts'
 
 class CookieStore {
   getSession(c: Context) {

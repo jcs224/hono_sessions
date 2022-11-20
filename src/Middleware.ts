@@ -1,6 +1,6 @@
 import Session from './Session.ts'
-import { nanoid } from 'https://deno.land/x/nanoid@v3.0.0/async.ts'
-import { Handler } from 'https://deno.land/x/hono@v2.5.1/mod.ts'
+import { nanoid } from '../deps.ts'
+import { Handler } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
 
