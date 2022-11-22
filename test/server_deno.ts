@@ -30,11 +30,27 @@ session_routes.post('/decrement', (c) => {
   return c.redirect('/')
 })
 
+session_routes.post('/increment2', (c) => {
+  const session = c.get('session')
+  session.set('count2', session.get('count2') + 1)
+  return c.redirect('/')
+})
+
+session_routes.post('/decrement2', (c) => {
+  const session = c.get('session')
+  session.set('count2', session.get('count2') - 1)
+  return c.redirect('/')
+})
+
 session_routes.get('/', (c) => {
   const session = c.get('session')
   
   if (!session.get('count')) {
     session.set('count', 0)
+  }
+
+  if (!session.get('count2')) {
+    session.set('count2', 0)
   }
 
   return c.html(`<!DOCTYPE html>
@@ -52,6 +68,13 @@ session_routes.get('/', (c) => {
       <button type="submit">Increment</button>
     </form>
     <form action="/decrement" method="post">
+      <button type="submit">Decrement</button>
+    </form>
+    <p>Counter 2: ${ session.get('count2') }</p>
+    <form action="/increment2" method="post">
+      <button type="submit">Increment</button>
+    </form>
+    <form action="/decrement2" method="post">
       <button type="submit">Decrement</button>
     </form>
   </body>
