@@ -1,6 +1,6 @@
 import Session from './Session.ts'
 import { nanoid } from '../deps.ts'
-import { Handler } from '../deps.ts'
+import { Handler, Context } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
 import { decryptFromBase64, encryptToBase64 } from '../mod.ts'
@@ -8,6 +8,14 @@ import { decryptFromBase64, encryptToBase64 } from '../mod.ts'
 interface SessionOptions {
   store: Store | CookieStore
   encryptionKey?: CryptoKey | null
+}
+
+async function createSession(c: Context, store: Store | CookieStore) {
+  const sid = await nanoid(21)
+  const session_data = {}
+  store instanceof CookieStore ? await store.createSession(c, session_data) : store.createSession(sid, session_data)
+
+  return {sid, session_data}
 }
 
 export function sessionMiddleware(options: SessionOptions) {
@@ -24,14 +32,14 @@ export function sessionMiddleware(options: SessionOptions) {
       sid = encryptionKey ? await decryptFromBase64(encryptionKey, c.req.cookie('session')) : c.req.cookie('session')
       session_data = (store instanceof CookieStore ? await store.getSession(c) : store.getSessionById(sid)) as Record<string, unknown>
       if (!session_data) {
-        sid = await nanoid(21)
-        session_data = {}
-        store instanceof CookieStore ? await store.createSession(c, session_data) : store.createSession(sid, session_data)
+        const createdSession = await createSession(c, store)
+        sid = createdSession.sid
+        session_data = createdSession.session_data
       }
     } else {
-      sid = await nanoid(21)
-      session_data = {}
-      store instanceof CookieStore ? await store.createSession(c, session_data) : store.createSession(sid, session_data)
+      const createdSession = await createSession(c, store)
+      sid = createdSession.sid
+      session_data = createdSession.session_data
     }
   
     c.cookie('session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid)
