@@ -12,21 +12,21 @@ class CookieStore {
   }
 
   async getSession(c: Context) {
-    return JSON.parse(this.encryptionKey ? await decryptFromBase64(this.encryptionKey, c.req.cookie('session_data')) : c.req.cookie('session_data'))
+    return JSON.parse(this.encryptionKey ? await decryptFromBase64(this.encryptionKey, c.req.cookie('session')) : c.req.cookie('session'))
   }
 
   async createSession(c: Context, initial_data: Record<string, unknown>) {
     const stringified_data = JSON.stringify(initial_data)
-    c.cookie('session_data', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
+    c.cookie('session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
   }
 
   async deleteSession(c: Context) {
-    c.cookie('session_data', this.encryptionKey ? await encryptToBase64(this.encryptionKey, '') : '')
+    c.cookie('session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, '') : '')
   }
 
   async persistSessionData(c: Context, session_data: Record<string, unknown>) {
     const stringified_data = JSON.stringify(session_data)
-    c.cookie('session_data', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
+    c.cookie('session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
   }
 }
 

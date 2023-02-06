@@ -11,9 +11,15 @@ interface SessionOptions {
 }
 
 async function createSession(c: Context, store: Store | CookieStore) {
-  const sid = await nanoid(21)
+  let sid = null
   const session_data = {}
-  store instanceof CookieStore ? await store.createSession(c, session_data) : store.createSession(sid, session_data)
+
+  if (store instanceof CookieStore) {
+    await store.createSession(c, session_data)
+  } else {
+    sid = await nanoid(21)
+    await store.createSession(sid, session_data)
+  }
 
   return {sid, session_data}
 }
@@ -25,12 +31,18 @@ export function sessionMiddleware(options: SessionOptions) {
 
   const middleware: Handler = async (c, next) => {
     const session = new Session
-    let sid: string
+    let sid: string | null
     let session_data: Record<string, unknown>
   
     if (c.req.cookie('session')) {
-      sid = encryptionKey ? await decryptFromBase64(encryptionKey, c.req.cookie('session')) : c.req.cookie('session')
-      session_data = (store instanceof CookieStore ? await store.getSession(c) : store.getSessionById(sid)) as Record<string, unknown>
+
+      if (store instanceof CookieStore) {
+        session_data = await store.getSession(c)
+      } else {
+        sid = encryptionKey ? await decryptFromBase64(encryptionKey, c.req.cookie('session')) : c.req.cookie('session')
+        session_data = await store.getSessionById(sid) as Record<string, unknown>
+      }
+
       if (!session_data) {
         const createdSession = await createSession(c, store)
         sid = createdSession.sid
@@ -42,7 +54,10 @@ export function sessionMiddleware(options: SessionOptions) {
       session_data = createdSession.session_data
     }
   
-    c.cookie('session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid)
+    if (!(store instanceof CookieStore)) {
+      c.cookie('session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid)
+    }
+
     session.setCache(session_data)
     c.set('session', session)
   
