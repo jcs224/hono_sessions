@@ -1,4 +1,4 @@
-import { Context } from '../../deps.ts'
+import { Context, getCookie, setCookie } from '../../deps.ts'
 import { decryptFromBase64, encryptToBase64 } from '../../mod.ts'
 
 interface CookieStoreOptions {
@@ -12,16 +12,25 @@ class CookieStore {
   }
 
   async getSession(c: Context) {
-    return JSON.parse(this.encryptionKey ? await decryptFromBase64(this.encryptionKey, c.req.cookie('session')) : c.req.cookie('session'))
+    let session_data: string
+
+    const sessionCookie = getCookie(c, 'session')
+
+    if (this.encryptionKey && sessionCookie) {
+      session_data = await decryptFromBase64(this.encryptionKey, sessionCookie)
+      return JSON.parse(session_data)
+    } else {
+      return null
+    }
   }
 
   async createSession(c: Context, initial_data: Record<string, unknown>) {
     const stringified_data = JSON.stringify(initial_data)
-    c.cookie('session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
+    setCookie(c, 'session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
   }
 
   async deleteSession(c: Context) {
-    c.cookie('session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, '') : '')
+    setCookie(c, 'session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, '') : '')
   }
 
   async persistSessionData(c: Context, session_data: Record<string, unknown>) {

@@ -10,11 +10,11 @@ const key = Deno.env.get('APP_KEY')
   ? await createKeyFromBase64(Deno.env.get('APP_KEY')) 
   : null
 
-const store = new CookieStore({
-  encryptionKey: key
-})
+// const store = new CookieStore({
+//   encryptionKey: key
+// })
 
-// const store = new MemoryStore()
+const store = new MemoryStore()
 
 const session_routes = new Hono<{
   Variables: {
