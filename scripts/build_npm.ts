@@ -1,5 +1,5 @@
 // ex. scripts/build_npm.ts
-import { build, emptyDir } from "https://deno.land/x/dnt@0.31.0/mod.ts";
+import { build, emptyDir } from "https://deno.land/x/dnt@0.38.1/mod.ts";
 
 await emptyDir("./npm");
 
@@ -25,6 +25,7 @@ await build({
       url: "https://github.com/jcs224/hono-sessions/issues",
     },
   },
+  // typeCheck: false,
   compilerOptions: {
     lib: ['dom', 'es2022']
   }
