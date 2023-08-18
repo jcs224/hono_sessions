@@ -1,6 +1,6 @@
-import { Hono } from 'https://esm.sh/hono@2.5.1'
+import { Hono } from 'https://deno.land/x/hono@v3.4.3/mod.ts'
 import { serve } from 'https://deno.land/std@0.164.0/http/server.ts'
-import { sessionMiddleware as session, CookieStore, MemoryStore } from '../mod.ts'
+import { sessionMiddleware as session, CookieStore, MemoryStore, Session } from '../mod.ts'
 import { createKeyFromBase64 } from '../mod.ts'
 import 'https://deno.land/std@0.165.0/dotenv/load.ts'
 
@@ -16,31 +16,39 @@ const store = new CookieStore({
 
 // const store = new MemoryStore()
 
-const session_routes = new Hono()
+const session_routes = new Hono<{
+  Variables: {
+    session: Session
+  }
+}>()
 
 session_routes.use('*', session({store, encryptionKey: key}))
 
 session_routes.post('/increment', (c) => {
   const session = c.get('session')
-  session.set('count', session.get('count') + 1)
+  let count = session.get('count') as number
+  session.set('count', count + 1)
   return c.redirect('/')
 })
 
 session_routes.post('/decrement', (c) => {
   const session = c.get('session')
-  session.set('count', session.get('count') - 1)
+  let count = session.get('count') as number
+  session.set('count', count - 1)
   return c.redirect('/')
 })
 
 session_routes.post('/increment2', (c) => {
   const session = c.get('session')
-  session.set('count2', session.get('count2') + 1)
+  let count = session.get('count2') as number
+  session.set('count2', count + 1)
   return c.redirect('/')
 })
 
 session_routes.post('/decrement2', (c) => {
   const session = c.get('session')
-  session.set('count2', session.get('count2') - 1)
+  let count = session.get('count2') as number
+  session.set('count2', count - 1)
   return c.redirect('/')
 })
 

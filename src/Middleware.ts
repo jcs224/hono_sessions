@@ -1,6 +1,6 @@
 import Session from './Session.ts'
 import { nanoid } from '../deps.ts'
-import { Handler, Context } from '../deps.ts'
+import { MiddlewareHandler, Context } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
 import { decryptFromBase64, encryptToBase64 } from '../mod.ts'
@@ -29,7 +29,7 @@ export function sessionMiddleware(options: SessionOptions) {
   const store = options.store
   const encryptionKey = options.encryptionKey
 
-  const middleware: Handler = async (c, next) => {
+  const middleware: MiddlewareHandler = async (c, next) => {
     const session = new Session
     let sid: string | null
     let session_data: Record<string, unknown>
