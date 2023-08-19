@@ -29,7 +29,7 @@ export function sessionMiddleware(options: SessionOptions) {
         session_data = await store.getSession(c)
       } else {
         sid = encryptionKey ? await decryptFromBase64(encryptionKey, sessionCookie) : sessionCookie
-        session_data = await store.getSessionById(sid) as Record<string, unknown>
+        session_data = await store.getSessionById(sid) || {}
       }
 
       if (!session_data) {
