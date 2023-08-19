@@ -25,7 +25,7 @@ const session_routes = new Hono<{
 session_routes.use('*', session({
   store, 
   encryptionKey: key,
-  expireAfterSeconds: 1,
+  expireAfterSeconds: 3,
 }))
 
 session_routes.post('/increment', (c) => {

@@ -6,7 +6,8 @@ interface SessionDataEntry {
 export interface SessionData {
   _data: Record<string, SessionDataEntry>,
   _expire: string | null,
-  _delete: boolean
+  _delete: boolean,
+  _accessed: string | null,
 }
 
 export class Session {
@@ -18,6 +19,7 @@ export class Session {
       _data: {},
       _expire: null,
       _delete: false,
+      _accessed: null,
     }
   }
 
@@ -45,6 +47,10 @@ export class Session {
 
   sessionValid() {
     return this.cache._expire == null || Date.now() < new Date(this.cache._expire).getTime()
+  }
+
+  updateAccess() {
+    this.cache._accessed = new Date().toISOString()
   }
 
   get(key: string) {

@@ -30,14 +30,16 @@ export function sessionMiddleware(options: SessionOptions) {
         session_data = await store.getSession(c) || {
           _data:{},
           _expire: null,
-          _delete: false
+          _delete: false,
+          _accessed: null,
         }
       } else {
         sid = encryptionKey ? await decryptFromBase64(encryptionKey, sessionCookie) : sessionCookie
         session_data = await store.getSessionById(sid) || {
           _data:{},
           _expire: null,
-          _delete: false
+          _delete: false,
+          _accessed: null,
         }
       }
 
@@ -71,12 +73,13 @@ export function sessionMiddleware(options: SessionOptions) {
       setCookie(c, 'session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid)
     }
 
+    session.updateAccess()
+
     c.set('session', session)
-  
+
     await next()
     
-    const session_cache = session.getCache()
-    store instanceof CookieStore ? await store.persistSessionData(c, session_cache) : store.persistSessionData(sid, session_cache)
+    store instanceof CookieStore ? await store.persistSessionData(c, session.getCache()) : store.persistSessionData(sid, session.getCache())
 
     if (session.getCache()._delete) {
       store instanceof CookieStore ? await store.deleteSession(c) : await store.deleteSession(sid)
