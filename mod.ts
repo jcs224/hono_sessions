@@ -7,7 +7,8 @@ import {
 } from './src/Crypto.ts'
 
 import { sessionMiddleware } from './src/Middleware.ts'
-import Session from './src/Session.ts'
+import { Session } from './src/Session.ts'
+import type { SessionData } from './src/Session.ts'
 
 export {
   MemoryStore,
@@ -17,4 +18,8 @@ export {
   encryptToBase64,
   decryptFromBase64,
   Session,
+}
+
+export type {
+  SessionData
 }

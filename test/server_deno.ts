@@ -10,11 +10,11 @@ const key = Deno.env.get('APP_KEY')
   ? await createKeyFromBase64(Deno.env.get('APP_KEY')) 
   : null
 
-// const store = new CookieStore({
-//   encryptionKey: key
-// })
+const store = new CookieStore({
+  encryptionKey: key
+})
 
-const store = new MemoryStore()
+// const store = new MemoryStore()
 
 const session_routes = new Hono<{
   Variables: {
@@ -28,6 +28,11 @@ session_routes.post('/increment', (c) => {
   const session = c.get('session')
   let count = session.get('count') as number
   session.set('count', count + 1)
+
+  if (session.get('count') % 3 === 0) {
+    session.flash('flashme', 'hey i am flash')
+  }
+  
   return c.redirect('/')
 })
 
@@ -35,6 +40,11 @@ session_routes.post('/decrement', (c) => {
   const session = c.get('session')
   let count = session.get('count') as number
   session.set('count', count - 1)
+
+  if (session.get('count') % 3 === 0) {
+    session.flash('flashme', 'hey i am flash')
+  }
+
   return c.redirect('/')
 })
 
@@ -73,7 +83,7 @@ session_routes.get('/', (c) => {
   </head>
   <body>
     <h1>Counter</h1>
-    <p>Counter: ${ session.get('count') }</p>
+    <p>Counter: ${ session.get('count') }, ${ session.get('flashme') || '' }</p>
     <form action="/increment" method="post">
       <button type="submit">Increment</button>
     </form>

@@ -1,5 +1,5 @@
 import { Context, getCookie, setCookie } from '../../deps.ts'
-import { decryptFromBase64, encryptToBase64 } from '../../mod.ts'
+import { decryptFromBase64, encryptToBase64, SessionData } from '../../mod.ts'
 
 interface CookieStoreOptions {
   encryptionKey?: CryptoKey | null
@@ -24,7 +24,7 @@ class CookieStore {
     }
   }
 
-  async createSession(c: Context, initial_data: Record<string, unknown>) {
+  async createSession(c: Context, initial_data: SessionData) {
     const stringified_data = JSON.stringify(initial_data)
     setCookie(c, 'session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
   }
@@ -33,7 +33,7 @@ class CookieStore {
     setCookie(c, 'session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, '') : '')
   }
 
-  async persistSessionData(c: Context, session_data: Record<string, unknown>) {
+  async persistSessionData(c: Context, session_data: SessionData) {
     const stringified_data = JSON.stringify(session_data)
     c.cookie('session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
   }

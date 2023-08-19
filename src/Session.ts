@@ -1,12 +1,23 @@
-class Session {
+interface SessionDataEntry {
+  value: unknown,
+  flash: boolean
+}
 
-  private cache: Record<string, unknown>
+export interface SessionData {
+  _data: Record<string, SessionDataEntry>
+}
+
+export class Session {
+
+  private cache: SessionData
 
   constructor() {
-    this.cache = {}
+    this.cache = {
+      _data: {}
+    }
   }
 
-  setCache(cache_data: Record<string, unknown>) {
+  setCache(cache_data: SessionData) {
     this.cache = cache_data
   }
 
@@ -15,12 +26,31 @@ class Session {
   }
 
   get(key: string) {
-    return this.cache[key]
+    const entry = this.cache._data[key]
+
+    if (entry) {
+      const value = entry.value
+      if (entry.flash) {
+        delete this.cache._data[key]
+      }
+  
+      return value
+    } else {
+      return null
+    }
   }
 
   set(key: string, value: unknown) {
-    this.cache[key] = value
+    this.cache._data[key] = {
+      value,
+      flash: false
+    }
+  }
+
+  flash(key: string, value: unknown) {
+    this.cache._data[key] = {
+      value,
+      flash: true
+    }
   }
 }
-
-export default Session

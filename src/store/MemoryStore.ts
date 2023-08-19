@@ -1,7 +1,8 @@
 import Store from './Store.ts'
+import { SessionData } from '../../mod.ts'
 
 class MemoryStore implements Store {
-  private data: Map<string, Record<string, unknown>>
+  private data: Map<string, SessionData>
 
   constructor() {
     this.data = new Map
@@ -11,7 +12,7 @@ class MemoryStore implements Store {
     return this.data.has(sid) ? this.data.get(sid) : null
   }
 
-  createSession(sid: string, initial_data: Record<string, unknown>) {
+  createSession(sid: string, initial_data: SessionData) {
     this.data.set(sid, initial_data)
   }
 
@@ -19,7 +20,7 @@ class MemoryStore implements Store {
     this.data.delete(sid)
   }
 
-  persistSessionData(sid: string, session_data: Record<string, unknown>) {
+  persistSessionData(sid: string, session_data: SessionData) {
     this.data.set(sid, session_data)
   }
 }
