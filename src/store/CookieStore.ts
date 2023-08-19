@@ -37,7 +37,7 @@ class CookieStore {
 
   async persistSessionData(c: Context, session_data: SessionData) {
     const stringified_data = JSON.stringify(session_data)
-    c.cookie('session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
+    setCookie(c, 'session', this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data)
   }
 }
 
