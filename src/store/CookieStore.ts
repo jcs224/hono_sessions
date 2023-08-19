@@ -18,7 +18,9 @@ class CookieStore {
 
     if (this.encryptionKey && sessionCookie) {
       session_data = await decryptFromBase64(this.encryptionKey, sessionCookie)
-      return JSON.parse(session_data)
+      if (session_data) {
+        return JSON.parse(session_data)
+      }
     } else {
       return null
     }

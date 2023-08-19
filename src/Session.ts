@@ -4,7 +4,9 @@ interface SessionDataEntry {
 }
 
 export interface SessionData {
-  _data: Record<string, SessionDataEntry>
+  _data: Record<string, SessionDataEntry>,
+  _expire: string | null,
+  _delete: boolean
 }
 
 export class Session {
@@ -13,7 +15,9 @@ export class Session {
 
   constructor() {
     this.cache = {
-      _data: {}
+      _data: {},
+      _expire: null,
+      _delete: false,
     }
   }
 
@@ -23,6 +27,24 @@ export class Session {
 
   getCache() {
     return this.cache
+  }
+
+  setExpiration(expiration: string) {
+    this.cache._expire = expiration
+  }
+
+  reupSession(expiration: number | null | undefined) {
+    if (expiration) {
+      this.setExpiration(new Date(Date.now() + expiration * 1000).toISOString())
+    }
+  }
+
+  deleteSession() {
+    this.cache._delete = true
+  }
+
+  sessionValid() {
+    return this.cache._expire == null || Date.now() < new Date(this.cache._expire).getTime()
   }
 
   get(key: string) {
