@@ -76,7 +76,15 @@ export function sessionMiddleware(options: SessionOptions) {
     c.set('session', session)
 
     await next()
-    
+
+    if (c.get('session_key_rotation') === true && !(store instanceof CookieStore)) {
+      await store.deleteSession(sid)
+      sid = await nanoid(21)
+      await store.createSession(sid, session.getCache())
+
+      setCookie(c, 'session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid)
+    }
+
     store instanceof CookieStore ? await store.persistSessionData(c, session.getCache()) : store.persistSessionData(sid, session.getCache())
 
     if (session.getCache()._delete) {
