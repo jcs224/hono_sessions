@@ -1,7 +1,7 @@
 import {
   decode,
   encode,
-} from "https://deno.land/std@0.165.0/encoding/base64.ts";
+} from "https://deno.land/std@0.198.0/encoding/base64.ts";
 
 export async function createKeyFromBase64(key_string: string) {
   const key_decoded = decode(key_string)
