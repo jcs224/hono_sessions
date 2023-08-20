@@ -1,5 +1,7 @@
 import MemoryStore from './src/store/MemoryStore.ts'
 import CookieStore from './src/store/CookieStore.ts'
+import DenoSqliteStore from './src/store/DenoSqliteStore.ts'
+
 import {
   createKeyFromBase64,
   encryptToBase64,
@@ -13,6 +15,7 @@ import type { SessionData } from './src/Session.ts'
 export {
   MemoryStore,
   CookieStore,
+  DenoSqliteStore,
   sessionMiddleware,
   createKeyFromBase64,
   encryptToBase64,

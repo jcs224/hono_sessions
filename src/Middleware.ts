@@ -19,7 +19,7 @@ export function sessionMiddleware(options: SessionOptions) {
   const middleware: MiddlewareHandler = async (c, next) => {
     const session = new Session
     let sid: string = ''
-    let session_data: SessionData
+    let session_data: SessionData | null | undefined
     let createNewSession = false
 
     const sessionCookie = getCookie(c, 'session')
@@ -27,33 +27,22 @@ export function sessionMiddleware(options: SessionOptions) {
     if (sessionCookie) { // If there is a session cookie present...
 
       if (store instanceof CookieStore) {
-        session_data = await store.getSession(c) || {
-          _data:{},
-          _expire: null,
-          _delete: false,
-          _accessed: null,
-        }
+        session_data = await store.getSession(c)
       } else {
         sid = encryptionKey ? await decryptFromBase64(encryptionKey, sessionCookie) : sessionCookie
-        session_data = await store.getSessionById(sid) || {
-          _data:{},
-          _expire: null,
-          _delete: false,
-          _accessed: null,
+        session_data = await store.getSessionById(sid)
+      }
+
+      if (session_data) {
+        session.setCache(session_data)
+
+        if (session.sessionValid()) {
+          session.reupSession(expireAfterSeconds)
+        } else {
+          store instanceof CookieStore ? await store.deleteSession(c) : await store.deleteSession(sid)
+          createNewSession = true
         }
-      }
-
-      session.setCache(session_data)
-
-      if (session.sessionValid()) {
-        session.reupSession(expireAfterSeconds)
       } else {
-        session.deleteSession()
-        store instanceof CookieStore ? await store.deleteSession(c) : await store.deleteSession(sid)
-        createNewSession = true
-      }
-
-      if (!session.getCache()) {
         createNewSession = true
       }
     } else {
@@ -61,12 +50,21 @@ export function sessionMiddleware(options: SessionOptions) {
     }
 
     if (createNewSession) {
+      const defaultData = {
+        _data:{},
+        _expire: null,
+        _delete: false,
+        _accessed: null,
+      }
+
       if (store instanceof CookieStore) {
-        await store.createSession(c, session.getCache())
+        await store.createSession(c, defaultData)
       } else {
         sid = await nanoid(21)
-        await store.createSession(sid, session.getCache())
+        await store.createSession(sid, defaultData)
       }
+
+      session.setCache(defaultData)
     }
   
     if (!(store instanceof CookieStore)) {
