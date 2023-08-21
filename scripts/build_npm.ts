@@ -25,7 +25,7 @@ await build({
       url: "https://github.com/jcs224/hono-sessions/issues",
     },
   },
-  typeCheck: false,
+  // typeCheck: false,
   // scriptModule: false,
   compilerOptions: {
     lib: ['DOM', 'ES2022']
