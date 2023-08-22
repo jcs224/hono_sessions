@@ -1,5 +1,4 @@
 import { Hono } from 'https://deno.land/x/hono@v3.4.3/mod.ts'
-import { serve } from 'https://deno.land/std@0.198.0/http/server.ts'
 import { sessionMiddleware as session, CookieStore, MemoryStore, Session } from '../mod.ts'
 import { createKeyFromBase64 } from '../mod.ts'
 import 'https://deno.land/std@0.198.0/dotenv/load.ts'
@@ -134,4 +133,4 @@ session_routes.get('/', (c) => {
 
 app.route('/', session_routes)
 
-serve(app.fetch)
+Deno.serve(app.fetch)
