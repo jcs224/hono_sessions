@@ -2,3 +2,4 @@
 /npm
 .env
 *.sqlite
+/tmp
