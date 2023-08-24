@@ -6,7 +6,7 @@ import 'https://deno.land/std@0.198.0/dotenv/load.ts'
 const app = new Hono()
 
 const key = Deno.env.get('APP_KEY')
-  ? await createKeyFromBase64(Deno.env.get('APP_KEY')) 
+  ? await createKeyFromBase64(Deno.env.get('APP_KEY') as string) 
   : null
 
 // const store = new CookieStore({
