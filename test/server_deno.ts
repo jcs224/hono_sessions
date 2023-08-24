@@ -2,8 +2,6 @@ import { Hono } from 'https://deno.land/x/hono@v3.5.1/mod.ts'
 import { sessionMiddleware as session, CookieStore, MemoryStore, Session } from '../mod.ts'
 import { createKeyFromBase64 } from '../mod.ts'
 import 'https://deno.land/std@0.198.0/dotenv/load.ts'
-import { couldStartTrivia } from 'https://deno.land/x/ts_morph@18.0.0/common/typescript.js';
-import { createTextChangeRange } from 'https://deno.land/x/ts_morph@18.0.0/common/typescript.js';
 
 const app = new Hono()
 
