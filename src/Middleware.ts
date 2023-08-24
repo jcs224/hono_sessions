@@ -3,11 +3,13 @@ import { MiddlewareHandler, Context, getCookie, setCookie } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
 import { Session, SessionData, decryptFromBase64, encryptToBase64 } from '../mod.ts'
+import { CookieOptions } from '../deps.ts';
 
 interface SessionOptions {
   store: Store | CookieStore
-  encryptionKey?: CryptoKey | null,
-  expireAfterSeconds?: number | null,
+  encryptionKey?: CryptoKey,
+  expireAfterSeconds?: number,
+  cookieOptions?: CookieOptions,
 }
 
 export function sessionMiddleware(options: SessionOptions) {
@@ -15,6 +17,7 @@ export function sessionMiddleware(options: SessionOptions) {
   const store = options.store
   const encryptionKey = options.encryptionKey
   const expireAfterSeconds = options.expireAfterSeconds
+  const cookieOptions = options.cookieOptions
 
   const middleware: MiddlewareHandler = async (c, next) => {
     const session = new Session
@@ -27,6 +30,14 @@ export function sessionMiddleware(options: SessionOptions) {
     if (sessionCookie) { // If there is a session cookie present...
 
       if (store instanceof CookieStore) {
+        if (encryptionKey) {
+          store.encryptionKey = encryptionKey
+        }
+
+        if (cookieOptions) {
+          store.cookieOptions = cookieOptions
+        }
+        
         session_data = await store.getSession(c)
       } else {
         sid = encryptionKey ? await decryptFromBase64(encryptionKey, sessionCookie) : sessionCookie
@@ -68,7 +79,7 @@ export function sessionMiddleware(options: SessionOptions) {
     }
   
     if (!(store instanceof CookieStore)) {
-      setCookie(c, 'session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid)
+      setCookie(c, 'session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid, cookieOptions)
     }
 
     session.updateAccess()
@@ -82,7 +93,7 @@ export function sessionMiddleware(options: SessionOptions) {
       sid = await nanoid(21)
       await store.createSession(sid, session.getCache())
 
-      setCookie(c, 'session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid)
+      setCookie(c, 'session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid, cookieOptions)
     }
 
     store instanceof CookieStore ? await store.persistSessionData(c, session.getCache()) : store.persistSessionData(sid, session.getCache())

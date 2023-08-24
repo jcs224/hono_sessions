@@ -7,13 +7,11 @@ const app = new Hono()
 
 const key = Deno.env.get('APP_KEY')
   ? await createKeyFromBase64(Deno.env.get('APP_KEY') as string) 
-  : null
+  : undefined
 
-// const store = new CookieStore({
-//   encryptionKey: key
-// })
+const store = new CookieStore()
 
-const store = new MemoryStore()
+// const store = new MemoryStore()
 
 const session_routes = new Hono<{
   Variables: {
@@ -26,6 +24,9 @@ session_routes.use('*', session({
   store, 
   encryptionKey: key,
   expireAfterSeconds: 30,
+  cookieOptions: {
+    sameSite: 'Lax',
+  }
 }))
 
 session_routes.post('/login', async (c) => {
@@ -47,8 +48,8 @@ session_routes.post('/login', async (c) => {
   return c.redirect('/')
 })
 
-session_routes.post('/logout', async (c) => {
-  await c.get('session').deleteSession()
+session_routes.post('/logout', (c) => {
+  c.get('session').deleteSession()
   return c.redirect('/')
 })
 
