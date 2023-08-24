@@ -32,11 +32,11 @@ await build({
   },
 
   mappings: {
-    'https://deno.land/x/hono@v3.4.3/mod.ts': {
+    'https://deno.land/x/hono@v3.5.1/mod.ts': {
       name: 'hono',
       version: "^3.4.3",
     },
-    'https://deno.land/x/hono@v3.4.3/middleware/cookie/index.ts': {
+    'https://deno.land/x/hono@v3.5.1/middleware/cookie/index.ts': {
       name: 'hono',
       version: "^3.4.3",
       subPath: 'cookie'

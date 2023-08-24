@@ -1,7 +1,9 @@
-import { Hono } from 'https://deno.land/x/hono@v3.4.3/mod.ts'
+import { Hono } from 'https://deno.land/x/hono@v3.5.1/mod.ts'
 import { sessionMiddleware as session, CookieStore, MemoryStore, Session } from '../mod.ts'
 import { createKeyFromBase64 } from '../mod.ts'
 import 'https://deno.land/std@0.198.0/dotenv/load.ts'
+import { couldStartTrivia } from 'https://deno.land/x/ts_morph@18.0.0/common/typescript.js';
+import { createTextChangeRange } from 'https://deno.land/x/ts_morph@18.0.0/common/typescript.js';
 
 const app = new Hono()
 
@@ -28,74 +30,37 @@ session_routes.use('*', session({
   expireAfterSeconds: 30,
 }))
 
-session_routes.post('/increment', (c) => {
+session_routes.post('/login', async (c) => {
   const session = c.get('session')
-  let count = session.get('count') as number
-  session.set('count', count + 1)
 
-  if (session.get('count') as number % 3 === 0) {
-    session.flash('flashme', 'hey i am flash')
-  }
-  
-  return c.redirect('/')
-})
+  const { email, password } = await c.req.parseBody()
 
-session_routes.post('/increment-with-key', async (c, next) => {
-  c.set('session_key_rotation', true)
-
-  const session = c.get('session')
-  let count = session.get('count') as number
-  session.set('count', count + 1)
-
-  if (session.get('count') as number % 3 === 0) {
-    session.flash('flashme', 'hey i am flash')
-  }
-  
-
-  return c.redirect('/')
-})
-
-session_routes.post('/decrement', (c) => {
-  const session = c.get('session')
-  let count = session.get('count') as number
-  session.set('count', count - 1)
-
-  if (session.get('count') as number % 3 === 0) {
-    session.flash('flashme', 'hey i am flash')
+  if (password === 'correct') {
+    c.set('session_key_rotation', true)
+    session.set('email', email)
+    session.set('failed-login-attempts', null)
+    session.flash('message', 'Login Successful')
+  } else {
+    const failedLoginAttempts = (await session.get('failed-login-attempts') || 0) as number
+    session.set('failed-login-attempts', failedLoginAttempts + 1)
+    session.flash('error', 'Incorrect username or password')
   }
 
   return c.redirect('/')
 })
 
-session_routes.post('/increment2', (c) => {
-  const session = c.get('session')
-  let count = session.get('count2') as number
-  session.set('count2', count + 1)
+session_routes.post('/logout', async (c) => {
+  await c.get('session').deleteSession()
   return c.redirect('/')
 })
 
-session_routes.post('/decrement2', (c) => {
+session_routes.get('/', async (c) => {
   const session = c.get('session')
-  let count = session.get('count2') as number
-  session.set('count2', count - 1)
-  return c.redirect('/')
-})
 
-session_routes.post('/deletesession', (c) => {
-  c.get('session').deleteSession()
-  return c.redirect('/')
-})
-
-session_routes.get('/', (c) => {
-  const session = c.get('session')
-  
-  if (!session.get('count')) {
-    session.set('count', 0)
-  }
-
-  if (!session.get('count2')) {
-    session.set('count2', 0)
-  }
+  const message = await session.get('message') || ''
+  const error = await session.get('error') || ''
+  const failedLoginAttempts = await session.get('failed-login-attempts')
+  const email = await session.get('email')
 
   return c.html(`<!DOCTYPE html>
   <html lang="en">
@@ -106,28 +71,32 @@ session_routes.get('/', (c) => {
     <title>Hono Sessions</title>
   </head>
   <body>
-    <h1>Counter</h1>
-    <p>Counter: ${ session.get('count') }, ${ session.get('flashme') || '' }</p>
-    <form action="/increment" method="post">
-      <button type="submit">Increment</button>
-    </form>
-    <form action="/decrement" method="post">
-      <button type="submit">Decrement</button>
-    </form>
-    <form action="/increment-with-key" method="post">
-      <button type="submit">Increment rotating session key</button>
-    </form>
-    <p>Counter 2: ${ session.get('count2') }</p>
-    <form action="/increment2" method="post">
-      <button type="submit">Increment</button>
-    </form>
-    <form action="/decrement2" method="post">
-      <button type="submit">Decrement</button>
-    </form>
-    <form action="/deletesession" method="post" style="margin-top: 20px;">
-      <button type="submit">Delete Session</button>
-    </form>
-  </body>
+        <p>
+            ${message}
+        </p>
+        <p>
+            ${error}
+        </p>
+        <p>
+            ${failedLoginAttempts ? `Failed login attempts: ${failedLoginAttempts}` : ''}
+        </p>
+
+        ${email ? 
+        `<form id="logout" action="/logout" method="post">
+            <button name="logout" type="submit">Log out ${email}</button>
+        </form>`
+        : 
+        `<form id="login" action="/login" method="post">
+            <p>
+                <input id="email" name="email" type="text" placeholder="you@email.com">
+            </p>
+            <p>
+                <input id="password" name="password" type="password" placeholder="password">
+            </p>
+            <button name="login" type="submit">Log in</button>
+        </form>` 
+    }
+    </body>
   </html>`)
 })
 
