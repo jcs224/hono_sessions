@@ -10,6 +10,7 @@ interface SessionOptions {
   encryptionKey?: CryptoKey,
   expireAfterSeconds?: number,
   cookieOptions?: CookieOptions,
+  sessionCookieName?: string
 }
 
 export function sessionMiddleware(options: SessionOptions) {
@@ -18,6 +19,19 @@ export function sessionMiddleware(options: SessionOptions) {
   const encryptionKey = options.encryptionKey
   const expireAfterSeconds = options.expireAfterSeconds
   const cookieOptions = options.cookieOptions
+  const sessionCookieName = options.sessionCookieName || 'session'
+
+  if (store instanceof CookieStore) {
+    store.sessionCookieName = sessionCookieName
+  
+    if (encryptionKey) {
+      store.encryptionKey = encryptionKey
+    }
+  
+    if (cookieOptions) {
+      store.cookieOptions = cookieOptions
+    }
+  }
 
   const middleware: MiddlewareHandler = async (c, next) => {
     const session = new Session
@@ -25,19 +39,11 @@ export function sessionMiddleware(options: SessionOptions) {
     let session_data: SessionData | null | undefined
     let createNewSession = false
 
-    const sessionCookie = getCookie(c, 'session')
+    const sessionCookie = getCookie(c, sessionCookieName)
   
     if (sessionCookie) { // If there is a session cookie present...
 
       if (store instanceof CookieStore) {
-        if (encryptionKey) {
-          store.encryptionKey = encryptionKey
-        }
-
-        if (cookieOptions) {
-          store.cookieOptions = cookieOptions
-        }
-        
         session_data = await store.getSession(c)
       } else {
         sid = encryptionKey ? await decryptFromBase64(encryptionKey, sessionCookie) : sessionCookie
@@ -79,7 +85,7 @@ export function sessionMiddleware(options: SessionOptions) {
     }
   
     if (!(store instanceof CookieStore)) {
-      setCookie(c, 'session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid, cookieOptions)
+      setCookie(c, sessionCookieName, encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid, cookieOptions)
     }
 
     session.updateAccess()
@@ -93,7 +99,7 @@ export function sessionMiddleware(options: SessionOptions) {
       sid = await nanoid(21)
       await store.createSession(sid, session.getCache())
 
-      setCookie(c, 'session', encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid, cookieOptions)
+      setCookie(c, sessionCookieName, encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid, cookieOptions)
     }
 
     store instanceof CookieStore ? await store.persistSessionData(c, session.getCache()) : store.persistSessionData(sid, session.getCache())

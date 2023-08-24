@@ -26,7 +26,8 @@ session_routes.use('*', session({
   expireAfterSeconds: 30,
   cookieOptions: {
     sameSite: 'Lax',
-  }
+  },
+  sessionCookieName: 'sessions_plus',
 }))
 
 session_routes.post('/login', async (c) => {
