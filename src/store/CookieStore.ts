@@ -1,13 +1,13 @@
 import { Context, getCookie, setCookie, CookieOptions } from '../../deps.ts'
-import { decryptFromBase64, encryptToBase64, SessionData } from '../../mod.ts'
+import { encrypt, decrypt, SessionData } from '../../mod.ts'
 
 interface CookieStoreOptions {
-  encryptionKey?: CryptoKey | null,
+  encryptionKey?: string | null,
   cookieOptions?: CookieOptions,
   sessionCookieName: string
 }
 class CookieStore {
-  public encryptionKey: CryptoKey | null | undefined
+  public encryptionKey: string | null | undefined
   public cookieOptions: CookieOptions | undefined
   public sessionCookieName: string
 
@@ -23,7 +23,7 @@ class CookieStore {
     const sessionCookie = getCookie(c, this.sessionCookieName)
 
     if (this.encryptionKey && sessionCookie) {
-      session_data = await decryptFromBase64(this.encryptionKey, sessionCookie)
+      session_data = (await decrypt(this.encryptionKey, sessionCookie)) as string
       if (session_data) {
         return JSON.parse(session_data)
       }
@@ -34,16 +34,16 @@ class CookieStore {
 
   async createSession(c: Context, initial_data: SessionData) {
     const stringified_data = JSON.stringify(initial_data)
-    setCookie(c, this.sessionCookieName, this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data, this.cookieOptions)
+    setCookie(c, this.sessionCookieName, this.encryptionKey ? await encrypt(this.encryptionKey, stringified_data) : stringified_data, this.cookieOptions)
   }
 
   async deleteSession(c: Context) {
-    setCookie(c, this.sessionCookieName, this.encryptionKey ? await encryptToBase64(this.encryptionKey, '') : '', this.cookieOptions)
+    setCookie(c, this.sessionCookieName, this.encryptionKey ? await encrypt(this.encryptionKey, '') : '', this.cookieOptions)
   }
 
   async persistSessionData(c: Context, session_data: SessionData) {
     const stringified_data = JSON.stringify(session_data)
-    setCookie(c, this.sessionCookieName, this.encryptionKey ? await encryptToBase64(this.encryptionKey, stringified_data) : stringified_data, this.cookieOptions)
+    setCookie(c, this.sessionCookieName, this.encryptionKey ? await encrypt(this.encryptionKey, stringified_data) : stringified_data, this.cookieOptions)
   }
 }
 

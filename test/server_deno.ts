@@ -1,13 +1,8 @@
 import { Hono } from 'https://deno.land/x/hono@v3.5.1/mod.ts'
 import { sessionMiddleware as session, CookieStore, MemoryStore, Session } from '../mod.ts'
-import { createKeyFromBase64 } from '../mod.ts'
 import 'https://deno.land/std@0.198.0/dotenv/load.ts'
 
 const app = new Hono()
-
-const key = Deno.env.get('APP_KEY')
-  ? await createKeyFromBase64(Deno.env.get('APP_KEY') as string) 
-  : undefined
 
 const store = new CookieStore()
 
@@ -22,12 +17,11 @@ const session_routes = new Hono<{
 
 session_routes.use('*', session({
   store, 
-  encryptionKey: key,
+  encryptionKey: Deno.env.get('APP_KEY'), 
   expireAfterSeconds: 30,
   cookieOptions: {
     sameSite: 'Lax',
   },
-  sessionCookieName: 'sessions_plus',
 }))
 
 session_routes.post('/login', async (c) => {

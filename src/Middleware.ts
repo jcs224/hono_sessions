@@ -2,12 +2,12 @@ import { nanoid } from '../deps.ts'
 import { MiddlewareHandler, Context, getCookie, setCookie } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
-import { Session, SessionData, decryptFromBase64, encryptToBase64 } from '../mod.ts'
+import { Session, SessionData, encrypt, decrypt } from '../mod.ts'
 import { CookieOptions } from '../deps.ts';
 
 interface SessionOptions {
   store: Store | CookieStore
-  encryptionKey?: CryptoKey,
+  encryptionKey?: string,
   expireAfterSeconds?: number,
   cookieOptions?: CookieOptions,
   sessionCookieName?: string
@@ -26,6 +26,8 @@ export function sessionMiddleware(options: SessionOptions) {
   
     if (encryptionKey) {
       store.encryptionKey = encryptionKey
+    } else {
+      throw new Error('encryptionKey is required while using CookieStore. encryptionKey must be at least 32 characters long.')
     }
   
     if (cookieOptions) {
@@ -46,7 +48,7 @@ export function sessionMiddleware(options: SessionOptions) {
       if (store instanceof CookieStore) {
         session_data = await store.getSession(c)
       } else {
-        sid = encryptionKey ? await decryptFromBase64(encryptionKey, sessionCookie) : sessionCookie
+        sid = (encryptionKey ? await decrypt(encryptionKey, sessionCookie) : sessionCookie) as string
         session_data = await store.getSessionById(sid)
       }
 
@@ -85,7 +87,7 @@ export function sessionMiddleware(options: SessionOptions) {
     }
   
     if (!(store instanceof CookieStore)) {
-      setCookie(c, sessionCookieName, encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid, cookieOptions)
+      setCookie(c, sessionCookieName, encryptionKey ? await encrypt(encryptionKey, sid) : sid, cookieOptions)
     }
 
     session.updateAccess()
@@ -99,7 +101,7 @@ export function sessionMiddleware(options: SessionOptions) {
       sid = await nanoid(21)
       await store.createSession(sid, session.getCache())
 
-      setCookie(c, sessionCookieName, encryptionKey ? await encryptToBase64(encryptionKey, sid) : sid, cookieOptions)
+      setCookie(c, sessionCookieName, encryptionKey ? await encrypt(encryptionKey, sid) : sid, cookieOptions)
     }
 
     store instanceof CookieStore ? await store.persistSessionData(c, session.getCache()) : store.persistSessionData(sid, session.getCache())

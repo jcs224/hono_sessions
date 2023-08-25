@@ -23,6 +23,7 @@ const sessionRoutes = new Hono<{
 sessionRoutes.use('*', session({
   store,
   expireAfterSeconds: 900 // delete session after 15 minutes of inactivity
+  encryptionKey: 'password_that_is_at_least_32_characters_long' // Required while using CookieStore. Please use a secure, un-guessable password!
 }))
 
 sessionRoutes.post('/login', async (c) => {
