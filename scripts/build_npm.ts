@@ -34,16 +34,21 @@ await build({
   mappings: {
     'https://deno.land/x/hono@v3.5.1/mod.ts': {
       name: 'hono',
-      version: "^3.4.3",
+      version: "^3.5.1",
     },
-    'https://deno.land/x/hono@v3.5.1/middleware/cookie/index.ts': {
+    'https://deno.land/x/hono@v3.5.1/helper/cookie/index.ts': {
       name: 'hono',
-      version: "^3.4.3",
+      version: "^3.5.1",
       subPath: 'cookie'
+    },
+    'https://deno.land/x/hono@v3.5.1/utils/cookie.ts': {
+      name: 'hono',
+      version: "^3.5.1",
+      subPath: 'utils/cookie'
     }
   }
 });
 
 // post build steps
-// Deno.copyFileSync("LICENSE", "npm/LICENSE");
-// Deno.copyFileSync("README.md", "npm/README.md");
+Deno.copyFileSync("LICENSE", "npm/LICENSE");
+Deno.copyFileSync("README.md", "npm/README.md");
