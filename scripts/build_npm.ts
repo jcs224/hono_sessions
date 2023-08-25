@@ -19,10 +19,10 @@ await build({
     license: "MIT",
     repository: {
       type: "git",
-      url: "git+https://github.com/jcs224/hono-sessions.git",
+      url: "git+https://github.com/jcs224/hono_sessions.git",
     },
     bugs: {
-      url: "https://github.com/jcs224/hono-sessions/issues",
+      url: "https://github.com/jcs224/hono_sessions/issues",
     },
   },
   // typeCheck: false,
