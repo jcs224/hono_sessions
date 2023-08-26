@@ -6,6 +6,8 @@ Use cookie-based sessions with the [Hono](https://hono.dev/) framework. Currentl
 - Flash messages — data that is deleted once it's read (one-off error messages, etc.)
 - Built-in Memory and Cookie storage drivers (more coming soon)
 - Encrypted cookies thanks to [iron-webcrypto](https://github.com/brc-dd/iron-webcrypto)
+- Session expiration after inactivity
+- Session key rotation, for mitigating session fixation attacks
 
 ## Usage
 
@@ -127,4 +129,14 @@ import { sessionMiddleware, CookieStore, Session } from 'https://deno.land/x/hon
 // use:
 
 Deno.serve(app.fetch)
+```
+
+## Contributing
+
+This package is built Deno-first, so you'll need to have Deno installed in your development environment. See their [website](https://deno.com/) for installation instructions specific to your platform.
+
+Once Deno is installed, there is a test server you can run a basic web server to check your changes:
+
+```
+deno run --allow-net --watch test/server_deno.ts
 ```
