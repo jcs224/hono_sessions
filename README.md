@@ -1,9 +1,22 @@
 # Hono Sessions Middleware
 Use cookie-based sessions with the [Hono](https://hono.dev/) framework. Currently tested to work with Cloudflare Workers and Deno.
 
+### 🛠️ Features
+- Runs in Deno and Cloudflare Workers (possibly others, currently untested)
+- Flash messages — data that is deleted once it's read (one-off error messages, etc.)
+- Built-in Memory and Cookie storage drivers (more coming soon)
+- Encrypted cookies thanks to [iron-webcrypto](https://github.com/brc-dd/iron-webcrypto)
+
 ## Usage
 
 ### Cloudflare Workers
+
+Install from NPM
+```
+npm install hono-sessions
+```
+
+Here is a full-fledged example that shows what a login form might look like:
 
 ```ts
 import { Hono } from 'hono'
@@ -102,6 +115,9 @@ export default app
 ```
 
 ### Deno
+
+There is a Deno package available on `deno.land/x`.
+
 ```ts
 import { Hono } from 'https://deno.land/x/hono/mod.ts'
 import { sessionMiddleware, CookieStore, Session } from 'https://deno.land/x/hono_sessions/mod.ts'
