@@ -52,7 +52,7 @@ sessionRoutes.post('/login', async (c) => {
     session.set('failed-login-attempts', null)
     session.flash('message', 'Login Successful')
   } else {
-    const failedLoginAttempts = (await session.get('failed-login-attempts') || 0) as number
+    const failedLoginAttempts = (session.get('failed-login-attempts') || 0) as number
     session.set('failed-login-attempts', failedLoginAttempts + 1)
     session.flash('error', 'Incorrect username or password')
   }
@@ -60,18 +60,18 @@ sessionRoutes.post('/login', async (c) => {
   return c.redirect('/')
 })
 
-sessionRoutes.post('/logout', async (c) => {
-  await c.get('session').deleteSession()
+sessionRoutes.post('/logout', (c) => {
+  c.get('session').deleteSession()
   return c.redirect('/')
 })
 
-sessionRoutes.get('/', async (c) => {
+sessionRoutes.get('/', (c) => {
   const session = c.get('session')
 
-  const message = await session.get('message') || ''
-  const error = await session.get('error') || ''
-  const failedLoginAttempts = await session.get('failed-login-attempts')
-  const email = await session.get('email')
+  const message = session.get('message') || ''
+  const error = session.get('error') || ''
+  const failedLoginAttempts = session.get('failed-login-attempts')
+  const email = session.get('email')
 
   return c.html(`<!DOCTYPE html>
   <html lang="en">
