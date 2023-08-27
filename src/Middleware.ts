@@ -104,7 +104,7 @@ export function sessionMiddleware(options: SessionOptions) {
       setCookie(c, sessionCookieName, encryptionKey ? await encrypt(encryptionKey, sid) : sid, cookieOptions)
     }
 
-    store instanceof CookieStore ? await store.persistSessionData(c, session.getCache()) : store.persistSessionData(sid, session.getCache())
+    store instanceof CookieStore ? await store.persistSessionData(c, session.getCache()) : await store.persistSessionData(sid, session.getCache())
 
     if (session.getCache()._delete) {
       store instanceof CookieStore ? await store.deleteSession(c) : await store.deleteSession(sid)
