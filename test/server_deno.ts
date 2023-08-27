@@ -1,4 +1,5 @@
 import { Hono } from 'https://deno.land/x/hono@v3.5.1/mod.ts'
+import { html } from 'https://deno.land/x/hono@v3.5.1/helper.ts'
 import { sessionMiddleware as session, CookieStore, MemoryStore, Session } from '../mod.ts'
 import 'https://deno.land/std@0.198.0/dotenv/load.ts'
 
@@ -56,7 +57,7 @@ session_routes.get('/', async (c) => {
   const failedLoginAttempts = await session.get('failed-login-attempts')
   const email = await session.get('email')
 
-  return c.html(`<!DOCTYPE html>
+  return c.html(html`<!DOCTYPE html>
   <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -76,11 +77,11 @@ session_routes.get('/', async (c) => {
         </p>
 
         ${email ? 
-        `<form id="logout" action="/logout" method="post">
+        html`<form id="logout" action="/logout" method="post">
             <button name="logout" type="submit">Log out ${email}</button>
         </form>`
         : 
-        `<form id="login" action="/login" method="post">
+        html`<form id="login" action="/login" method="post">
             <p>
                 <input id="email" name="email" type="text" placeholder="you@email.com">
             </p>
