@@ -75,38 +75,32 @@ sessionRoutes.get('/', (c) => {
 
   return c.html(`<!DOCTYPE html>
   <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hono Sessions</title>
-  </head>
-  <body>
-        <p>
-            ${message}
-        </p>
-        <p>
-            ${error}
-        </p>
-        <p>
-            ${failedLoginAttempts ? `Failed login attempts: ${failedLoginAttempts}` : ''}
-        </p>
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Hono Sessions</title>
+    </head>
+    <body>
+      <p>${message}</p>
+      <p>${error}</p>
+      <p>${failedLoginAttempts ? `Failed login attempts: ${failedLoginAttempts}` : ''}</p>
 
-        ${email ? 
-        `<form id="logout" action="/logout" method="post">
-            <button name="logout" type="submit">Log out ${email}</button>
-        </form>`
-        : 
-        `<form id="login" action="/login" method="post">
-            <p>
-                <input id="email" name="email" type="text" placeholder="you@email.com">
-            </p>
-            <p>
-                <input id="password" name="password" type="password" placeholder="password">
-            </p>
-            <button name="login" type="submit">Log in</button>
-        </form>` 
-    }
+      ${email ? 
+      `<form id="logout" action="/logout" method="post">
+          <button name="logout" type="submit">Log out ${email}</button>
+      </form>`
+      : 
+      `<form id="login" action="/login" method="post">
+          <p>
+              <input id="email" name="email" type="text" placeholder="you@email.com">
+          </p>
+          <p>
+              <input id="password" name="password" type="password" placeholder="password">
+          </p>
+          <button name="login" type="submit">Log in</button>
+      </form>` 
+      }
     </body>
   </html>`)
 })

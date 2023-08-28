@@ -59,22 +59,16 @@ session_routes.get('/', (c) => {
 
   return c.html(html`<!DOCTYPE html>
   <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hono Sessions</title>
-  </head>
-  <body>
-        <p>
-            ${message}
-        </p>
-        <p>
-            ${error}
-        </p>
-        <p>
-            ${failedLoginAttempts ? `Failed login attempts: ${failedLoginAttempts}` : ''}
-        </p>
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Hono Sessions</title>
+    </head>
+    <body>
+        <p>${message}</p>
+        <p>${error}</p>
+        <p>${failedLoginAttempts ? `Failed login attempts: ${failedLoginAttempts}` : ''}</p>
 
         ${email ? 
         html`<form id="logout" action="/logout" method="post">
@@ -90,7 +84,7 @@ session_routes.get('/', (c) => {
             </p>
             <button name="login" type="submit">Log in</button>
         </form>` 
-    }
+      }
     </body>
   </html>`)
 })
