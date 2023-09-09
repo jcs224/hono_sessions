@@ -1,5 +1,5 @@
-import { Hono } from 'https://deno.land/x/hono@v3.5.1/mod.ts'
-import { html } from 'https://deno.land/x/hono@v3.5.1/helper.ts'
+import { Hono } from 'https://deno.land/x/hono@v3.5.8/mod.ts'
+import { html } from 'https://deno.land/x/hono@v3.5.8/helper.ts'
 import { sessionMiddleware as session, CookieStore, MemoryStore, Session } from '../mod.ts'
 import 'https://deno.land/std@0.198.0/dotenv/load.ts'
 
