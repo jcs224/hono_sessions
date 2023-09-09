@@ -27,6 +27,7 @@ await build({
   },
   // typeCheck: false,
   // scriptModule: false,
+  test: false,
   compilerOptions: {
     lib: ['DOM', 'ES2022']
   },
