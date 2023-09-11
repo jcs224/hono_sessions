@@ -1,5 +1,5 @@
 import { Context, getCookie, setCookie, CookieOptions } from '../../deps.ts'
-import { encrypt, decrypt, SessionData } from '../../mod.ts'
+import { encrypt, decrypt, SessionData, Session } from '../../mod.ts'
 
 interface CookieStoreOptions {
   encryptionKey?: string | null,
@@ -18,21 +18,21 @@ class CookieStore {
   }
 
   async getSession(c: Context) {
-    let session_data: string
+    let session_data_raw: string
 
     const sessionCookie = getCookie(c, this.sessionCookieName)
 
     if (this.encryptionKey && sessionCookie) {
       // Decrypt cookie string. If decryption fails, return null
       try {
-        session_data = (await decrypt(this.encryptionKey, sessionCookie)) as string
+        session_data_raw = (await decrypt(this.encryptionKey, sessionCookie)) as string
       } catch {
         return null
       }
 
       // Parse session object from cookie string and return result. If fails, return null
       try {
-        session_data = JSON.parse(session_data)
+        const session_data = JSON.parse(session_data_raw) as SessionData
         return session_data
       } catch {
         return null
