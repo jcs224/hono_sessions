@@ -1,8 +1,8 @@
 # Hono Sessions Middleware
-Use cookie-based sessions with the [Hono](https://hono.dev/) framework. Currently tested to work with Cloudflare Workers and Deno.
+Use cookie-based sessions with the [Hono](https://hono.dev/) framework. Currently tested to work with Deno, Cloudflare Workers, and Bun.
 
 ### 🛠️ Features
-- Runs in Deno and Cloudflare Workers (possibly others, currently untested)
+- Runs in Deno, Cloudflare Workers, and Bun (possibly others, currently untested)
 - Flash messages — data that is deleted once it's read (one-off error messages, etc.)
 - Built-in Memory and Cookie storage drivers (more coming soon)
 - Encrypted cookies thanks to [iron-webcrypto](https://github.com/brc-dd/iron-webcrypto)
@@ -123,6 +123,21 @@ import { sessionMiddleware, CookieStore, Session } from 'https://deno.land/x/hon
 // use:
 
 Deno.serve(app.fetch)
+```
+
+### Bun
+```ts
+import { Hono } from 'hono'
+import { sessionMiddleware, CookieStore, Session } from 'hono-sessions'
+
+// Same as CF Workers, however instead of:
+// export default app
+// use:
+
+export default {
+  port: 3000,
+  fetch: app.fetch
+}
 ```
 
 ## Contributing

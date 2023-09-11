@@ -4,7 +4,10 @@ import { build, emptyDir } from "https://deno.land/x/dnt@0.38.1/mod.ts";
 await emptyDir("./npm");
 
 await build({
-  entryPoints: ["./mod.ts"],
+  entryPoints: ["./mod.ts", {
+    name: './bun-sqlite-store',
+    path: './src/store/bun/BunSqliteStore.ts'
+  }],
   outDir: "./npm",
   shims: {
     // see JS docs for overview and more options
