@@ -23,9 +23,19 @@ class CookieStore {
     const sessionCookie = getCookie(c, this.sessionCookieName)
 
     if (this.encryptionKey && sessionCookie) {
-      session_data = (await decrypt(this.encryptionKey, sessionCookie)) as string
-      if (session_data) {
-        return JSON.parse(session_data)
+      // Decrypt cookie string. If decryption fails, return null
+      try {
+        session_data = (await decrypt(this.encryptionKey, sessionCookie)) as string
+      } catch {
+        return null
+      }
+
+      // Parse session object from cookie string and return result. If fails, return null
+      try {
+        session_data = JSON.parse(session_data)
+        return session_data
+      } catch {
+        return null
       }
     } else {
       return null

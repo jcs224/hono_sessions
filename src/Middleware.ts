@@ -48,8 +48,12 @@ export function sessionMiddleware(options: SessionOptions) {
       if (store instanceof CookieStore) {
         session_data = await store.getSession(c)
       } else {
-        sid = (encryptionKey ? await decrypt(encryptionKey, sessionCookie) : sessionCookie) as string
-        session_data = await store.getSessionById(sid)
+        try {
+          sid = (encryptionKey ? await decrypt(encryptionKey, sessionCookie) : sessionCookie) as string
+          session_data = await store.getSessionById(sid)
+        } catch {
+          createNewSession = true
+        }
       }
 
       if (session_data) {
