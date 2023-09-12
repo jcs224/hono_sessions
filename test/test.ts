@@ -1,7 +1,8 @@
-import app from './setup_memory.ts'
+import { createHonoApp } from './setup_app.ts'
 import { assert, assertEquals } from 'https://deno.land/std@0.200.0/assert/mod.ts'
 
 Deno.test('Memory Store: establish session', async () => {
+  const app = await createHonoApp('memory')
   const res = await app.request('/')
 
   const sessionCookies = res.headers.getSetCookie().filter(entry => entry.includes('session='))
