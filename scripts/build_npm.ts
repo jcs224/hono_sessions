@@ -7,6 +7,9 @@ await build({
   entryPoints: ["./mod.ts", {
     name: './bun-sqlite-store',
     path: './src/store/bun/BunSqliteStore.ts'
+  }, {
+    name: './cloudflare-d1-store',
+    path: './src/store/cloudflare/CloudflareD1Store.ts'
   }],
   outDir: "./npm",
   shims: {
