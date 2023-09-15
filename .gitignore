@@ -3,3 +3,4 @@
 .env
 *.sqlite
 /tmp
+/test/deno/tmp
