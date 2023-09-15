@@ -5,9 +5,12 @@ on:
   pull_request:
     branches: [ main, master ]
 
+defaults:
+  run:
+    working-directory: ./playwright
+
 jobs:
   test:
-    working-directory: ./playwright
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
