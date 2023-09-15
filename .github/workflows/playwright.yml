@@ -4,8 +4,10 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
 jobs:
   test:
+    working-directory: ./playwright
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -13,6 +15,9 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
+    - uses: actions/setup-deno@v1
+      with:
+        deno-version: v1.36.4
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
