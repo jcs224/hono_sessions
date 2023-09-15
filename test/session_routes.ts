@@ -1,5 +1,5 @@
 import { Hono } from "https://deno.land/x/hono@v3.5.8/mod.ts"
-import { html } from 'https://deno.land/x/hono@v3.5.8/helper.ts'
+import { html, raw } from 'https://deno.land/x/hono@v3.5.8/helper.ts'
 import { sessionMiddleware as session, Session, Store, CookieStore } from '../mod.ts'
 import 'https://deno.land/std@0.198.0/dotenv/load.ts'
 
@@ -61,13 +61,13 @@ export function getSessionRoutes(store: Store | CookieStore, encryptionKey?: str
         <title>Hono Sessions</title>
       </head>
       <body>
-          <p>${message}</p>
-          <p>${error}</p>
-          <p>${failedLoginAttempts ? `Failed login attempts: ${failedLoginAttempts}` : ''}</p>
+          ${ message && html`<p id="message">${message}</p>` }
+          ${ error && html`<p id="error">${error}</p>` }
+          ${ failedLoginAttempts && html`<p id="failed-login-attempts">Failed login attempts: ${ failedLoginAttempts }</p>` }
   
           ${email ? 
           html`<form id="logout" action="/logout" method="post">
-              <button name="logout" type="submit">Log out ${email}</button>
+              <button name="logout" id="logout-button" type="submit">Log out ${email}</button>
           </form>`
           : 
           html`<form id="login" action="/login" method="post">
@@ -77,7 +77,7 @@ export function getSessionRoutes(store: Store | CookieStore, encryptionKey?: str
               <p>
                   <input id="password" name="password" type="password" placeholder="password">
               </p>
-              <button name="login" type="submit">Log in</button>
+              <button id="login-button" name="login" type="submit">Log in</button>
           </form>` 
         }
       </body>
