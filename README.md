@@ -72,6 +72,29 @@ app.get('/', async (c, next) => {
 Deno.serve(app.fetch)
 ```
 
+#### Using Deno KV storage driver
+
+```ts
+import { Hono } from 'https://deno.land/x/hono@v3.5.8/mod.ts'
+import { sessionMiddleware } from 'https://deno.land/x/hono_sessions/mod.ts'
+import { DenoKvStore } from 'https://deno.land/x/hono_sessions/src/store/deno/DenoKvStore.ts'
+
+const app = new Hono()
+
+const kv = await Deno.openKv()
+const store = new DenoKvStore(kv)
+
+app.use('*', sessionMiddleware({
+  store,
+  // ... other session options
+}))
+
+// Other app code
+
+Deno.serve(app.fetch)
+
+```
+
 ### Bun
 
 ```ts
@@ -89,6 +112,8 @@ export default {
 ```
 
 #### Using Bun's SQLite storage driver
+
+This will automatically create a `database.sqlite` file and a `sessions` table in that sqlite database.
 
 ```ts
 import { Hono } from 'hono'
