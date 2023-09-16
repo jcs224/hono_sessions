@@ -26,12 +26,6 @@ jobs:
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
 
   test-deno-cookie-store:
     timeout-minutes: 60
@@ -56,12 +50,6 @@ jobs:
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
 
   test-deno-kv-store:
     timeout-minutes: 60
@@ -85,12 +73,29 @@ jobs:
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
-    - uses: actions/upload-artifact@v3
-      if: always()
+
+  test-deno-sqlite-store:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      STORE: sqlite
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+        node-version: 18
+    - uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.36.4
+    - name: Install dependencies
+      working-directory: ./playwright
+      run: npm ci
+    - name: Install Playwright Browsers
+      working-directory: ./playwright
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      working-directory: ./playwright
+      run: npx playwright test
 
   test-bun-sqlite-store:
     timeout-minutes: 60
@@ -122,9 +127,3 @@ jobs:
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
