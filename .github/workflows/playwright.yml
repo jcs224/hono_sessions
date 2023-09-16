@@ -119,9 +119,6 @@ jobs:
     - name: Install bun example server
       working-directory: ./test/bun
       run: bun install
-    - name: Create bun link for library
-      working-directory: ./npm
-      run: bun link
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
