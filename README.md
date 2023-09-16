@@ -88,6 +88,32 @@ export default {
 }
 ```
 
+#### Using Bun's SQLite storage driver
+
+```ts
+import { Hono } from 'hono'
+import { sessionMiddleware } from 'hono-sessions'
+import { BunSqliteStore } from 'hono-sessions/bun-sqlite-store'
+import { Database } from 'bun:sqlite'
+
+const app = new Hono()
+
+const db = new Database('./database.sqlite')
+const store = new BunSqliteStore(db)
+
+app.use('*', sessionMiddleware({
+  store,
+  // ... other session options
+}))
+
+// Other app code
+
+export default {
+  port: 3000,
+  fetch: app.fetch
+}
+```
+
 ### Cloudflare Workers
 
 ```ts
