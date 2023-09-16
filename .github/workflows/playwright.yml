@@ -33,6 +33,7 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
   test-deno-cookie-store:
     timeout-minutes: 60
     runs-on: ubuntu-latest
@@ -59,6 +60,7 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
   test-deno-kv-store:
     timeout-minutes: 60
     runs-on: ubuntu-latest
