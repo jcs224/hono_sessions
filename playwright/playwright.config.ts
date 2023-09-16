@@ -6,6 +6,23 @@ import { defineConfig, devices } from '@playwright/test';
  */
 // require('dotenv').config();
 
+function runtimeCommand() {
+  let command: string
+
+  switch(process.env.JS_RUNTIME) {
+    case 'deno':
+      command = `cd ../test/deno && deno run -A ${ process.env.STORE === 'kv' ? '--unstable ': '' }server_deno.ts`
+      break
+    case 'bun':
+      command = `cd ../test/bun && bun run src/index.ts`
+      break
+    default: // Deno by default
+      command = `cd ../test/deno && deno run -A ${ process.env.STORE === 'kv' ? '--unstable ': '' }server_deno.ts`
+  }
+
+  return command
+}
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -70,7 +87,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: `cd ../test/deno && deno run -A ${ process.env.STORE === 'kv' ? '--unstable ': '' }server_deno.ts`,
+    command: runtimeCommand(),
     url: 'http://127.0.0.1:8000',
     reuseExistingServer: !process.env.CI,
   },

@@ -5,3 +5,4 @@
 /tmp
 /test/deno/tmp/*
 !/test/deno/tmp/.gitkeep
+/test/bun/node_modules
