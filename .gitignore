@@ -6,3 +6,5 @@
 /test/deno/tmp/*
 !/test/deno/tmp/.gitkeep
 /test/bun/node_modules
+/test/bun/tmp/*
+!/test/bun/tmp/.gitkeep

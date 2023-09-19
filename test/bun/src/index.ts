@@ -9,7 +9,7 @@ const port = parseInt(process.env.PORT) || 8000;
 
 const app = new Hono()
 
-const db = new Database('./database.sqlite')
+const db = new Database('./tmp/database.sqlite')
 const store = new BunSqliteStore(db)
 
 const session_routes = new Hono<{
