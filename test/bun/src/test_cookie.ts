@@ -1,16 +1,12 @@
 import { Hono } from "hono";
 import { html } from "hono/html";
-import { Database } from 'bun:sqlite'
-import { sessionMiddleware, CookieStore, MemoryStore, Session } from "hono-sessions";
-import { BunSqliteStore } from 'hono-sessions/bun-sqlite-store'
+import { sessionMiddleware, CookieStore, Session } from "hono-sessions";
 
-
-const port = parseInt(process.env.PORT) || 8000;
+const port = parseInt(process.env.PORT) || 3000;
 
 const app = new Hono()
 
-const db = new Database('./tmp/database.sqlite')
-const store = new BunSqliteStore(db)
+const store = new CookieStore()
 
 const session_routes = new Hono<{
   Variables: {

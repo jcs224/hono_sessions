@@ -101,6 +101,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
+      STORE: sqlite
       JS_RUNTIME: bun
     steps:
     - uses: actions/checkout@v3

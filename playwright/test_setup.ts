@@ -8,8 +8,8 @@ export function runtimeCommand() {
       server_url = 'http://127.0.0.1:8000'
       break
     case 'bun':
-      command = `cd ../test/bun && bun run src/index.ts`
-      server_url = 'http://127.0.0.1:8000'
+      command = `cd ../test/bun && bun run ${ process.env.STORE === 'sqlite' ? 'src/test_sqlite.ts' : 'src/test_cookie.ts'}`
+      server_url = 'http://127.0.0.1:3000'
       break
     case 'cf_workers':
       command = `cd ../test/cloudflare_workers && npm run dev`
