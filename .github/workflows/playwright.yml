@@ -22,7 +22,7 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       working-directory: ./playwright
-      run: npx playwright install --with-deps
+      run: npx playwright install chromium
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
@@ -46,7 +46,7 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       working-directory: ./playwright
-      run: npx playwright install --with-deps
+      run: npx playwright install chromium
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
@@ -69,7 +69,7 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       working-directory: ./playwright
-      run: npx playwright install --with-deps
+      run: npx playwright install chromium
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
@@ -92,7 +92,7 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       working-directory: ./playwright
-      run: npx playwright install --with-deps
+      run: npx playwright install chromium
     - name: Run Playwright tests
       working-directory: ./playwright
       run: npx playwright test
@@ -118,7 +118,7 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       working-directory: ./playwright
-      run: npx playwright install --with-deps
+      run: npx playwright install chromium
     - name: Build NPM package for library
       run: deno run -A scripts/build_npm.ts
     - name: Install bun example server
@@ -146,7 +146,7 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       working-directory: ./playwright
-      run: npx playwright install --with-deps
+      run: npx playwright install chromium
     - name: Build NPM package for library
       run: deno run -A scripts/build_npm.ts
     - name: Install CF Workers example server
