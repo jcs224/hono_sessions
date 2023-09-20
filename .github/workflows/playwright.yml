@@ -97,6 +97,38 @@ jobs:
       working-directory: ./playwright
       run: npx playwright test
 
+  test-bun-cookie-store:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      STORE: cookie
+      JS_RUNTIME: bun
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.36.4
+    - uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: 1.0.2
+    - name: Install dependencies
+      working-directory: ./playwright
+      run: npm ci
+    - name: Install Playwright Browsers
+      working-directory: ./playwright
+      run: npx playwright install chromium
+    - name: Build NPM package for library
+      run: deno run -A scripts/build_npm.ts
+    - name: Install bun example server
+      working-directory: ./test/bun
+      run: bun install
+    - name: Run Playwright tests
+      working-directory: ./playwright
+      run: npx playwright test
+
   test-bun-sqlite-store:
     timeout-minutes: 60
     runs-on: ubuntu-latest
