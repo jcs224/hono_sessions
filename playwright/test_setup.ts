@@ -15,6 +15,10 @@ export function runtimeCommand() {
       command = `cd ../test/cloudflare_workers && npm run dev`
       server_url = 'http://127.0.0.1:8787'
       break
+    case 'node':
+      command = `cd ../test/node && npm run start`
+      server_url = 'http://127.0.0.1:3000'
+      break
     default: // Deno by default
       command = `cd ../test/deno && deno run -A ${ process.env.STORE === 'kv' ? '--unstable ': '' }server_deno.ts`
       server_url = 'http://127.0.0.1:8000'
