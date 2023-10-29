@@ -210,7 +210,7 @@ jobs:
       run: npx playwright install chromium
     - name: Build NPM package for library
       run: deno run -A scripts/build_npm.ts
-    - name: Install bun example server
+    - name: Install node example server
       working-directory: ./test/node
       run: npm install
     - name: Run Playwright tests
