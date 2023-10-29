@@ -1,8 +1,21 @@
 # Hono Sessions Middleware
-Use cookie-based sessions with the [Hono](https://hono.dev/) framework. Currently tested to work with Deno, Cloudflare Workers, and Bun.
+Use cookie-based sessions with the [Hono](https://hono.dev/) framework.
+
+### Supported runtimes
+
+Hono Sessions should work in *any* runtime supported by Hono. Here are the runtimes currently tested:
+
+- Deno
+- Cloudflare Workers
+- Bun
+- Node
+
+However, if you want to use a backend storage driver (instead of just storing session data in an encrypted cookie), you'll need to use a storage engine provided by Hono Sessions. Right now, those include:
+
+- Deno KV
+- Bun SQLite
 
 ### 🛠️ Features
-- Runs in Deno, Cloudflare Workers, and Bun (possibly others, currently untested)
 - Flash messages — data that is deleted once it's read (one-off error messages, etc.)
 - Built-in Memory and Cookie storage drivers (more coming soon)
 - Encrypted cookies thanks to [iron-webcrypto](https://github.com/brc-dd/iron-webcrypto)
