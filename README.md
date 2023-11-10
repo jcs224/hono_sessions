@@ -67,6 +67,7 @@ app.use('*', sessionMiddleware({
   expireAfterSeconds: 900, // Expire session after 15 minutes
   cookieOptions: {
     sameSite: 'Lax',
+    path: '/',
   },
 }))
 

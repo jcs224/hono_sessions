@@ -20,6 +20,7 @@ session_routes.use('*', session({
   expireAfterSeconds: 30,
   cookieOptions: {
     sameSite: 'Lax',
+    path: '/',
   },
 }))
 
