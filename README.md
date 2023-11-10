@@ -34,7 +34,7 @@ Simply include the package from `deno.land/x`
 import { sessionMiddleware } from 'https://deno.land/x/hono_sessions/mod.ts'
 ```
 
-### Bun, Cloudflare Workers
+### Node, Bun, Cloudflare Workers, etc.
 
 Install the NPM package
 ```
@@ -64,7 +64,7 @@ const store = new CookieStore()
 app.use('*', sessionMiddleware({
   store,
   encryptionKey: 'password_at_least_32_characters_long', // Required for CookieStore, recommended for others
-  expireAfterSeconds: 900, // Expire session after 15 minutes
+  expireAfterSeconds: 900, // Expire session after 15 minutes of inactivity
   cookieOptions: {
     sameSite: 'Lax',
     path: '/',
