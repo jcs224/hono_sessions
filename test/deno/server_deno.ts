@@ -21,6 +21,7 @@ session_routes.use('*', session({
   cookieOptions: {
     sameSite: 'Lax',
     path: '/',
+    httpOnly: true,
   },
 }))
 

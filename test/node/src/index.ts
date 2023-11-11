@@ -20,6 +20,7 @@ session_routes.use('*', sessionMiddleware({
   cookieOptions: {
     sameSite: 'Lax',
     path: '/',
+    httpOnly: true,
   },
   encryptionKey: 'string_at_least_32_characters_long'
 }))

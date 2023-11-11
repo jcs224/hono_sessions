@@ -22,7 +22,7 @@ However, if you want to use a backend storage driver (instead of just storing se
 - Session expiration after inactivity
 - Session key rotation* 
 
-> *CookieStore is not able to rotate session keys by nature of how a pure cookie session works (no server-side state).
+> *It is not necessary to rotate CookieStore sessions because of how a pure cookie session works (no server-side state). Therefore, using session key rotation will have no effect while using CookieStore.
 
 ## Installation and Usage
 
@@ -66,8 +66,9 @@ app.use('*', sessionMiddleware({
   encryptionKey: 'password_at_least_32_characters_long', // Required for CookieStore, recommended for others
   expireAfterSeconds: 900, // Expire session after 15 minutes of inactivity
   cookieOptions: {
-    sameSite: 'Lax',
-    path: '/',
+    sameSite: 'Lax', // Recommended for basic CSRF protection in modern browsers
+    path: '/', // Required for this library to work properly
+    httpOnly: true, // Recommended to avoid XSS attacks
   },
 }))
 
