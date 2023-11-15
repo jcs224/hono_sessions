@@ -3,14 +3,16 @@ Use cookie-based sessions with the [Hono](https://hono.dev/) framework.
 
 ### Supported runtimes
 
-Hono Sessions should work in *any* runtime supported by Hono. Here are the runtimes currently tested:
+Hono Sessions is currently tested on these runtimes:
 
 - Deno
 - Cloudflare Workers
 - Bun
 - Node
 
-However, if you want to use a backend storage driver (instead of just storing session data in an encrypted cookie), you'll need to use a storage engine provided by Hono Sessions. Right now, those include:
+Other runtimes may work, but are untested. In addition to Hono's requirements, the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) is required for this library.
+
+If you want to use a backend storage driver (instead of just storing session data in an encrypted cookie), you'll need to use a storage engine provided by Hono Sessions. Right now, those include:
 
 - Deno KV
 - Bun SQLite
