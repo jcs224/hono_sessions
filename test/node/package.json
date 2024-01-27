@@ -8,6 +8,6 @@
     "hono-sessions": "../../npm"
   },
   "devDependencies": {
-    "tsx": "^3.12.2"
+    "tsx": "^3.14.0"
   }
 }
