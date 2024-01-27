@@ -39,18 +39,18 @@ await build({
   },
 
   mappings: {
-    'https://deno.land/x/hono@v3.5.8/mod.ts': {
+    'https://deno.land/x/hono@v3.12.7/mod.ts': {
       name: 'hono',
-      version: "3.5.8",
+      version: "3.12.7",
     },
-    'https://deno.land/x/hono@v3.5.8/helper/cookie/index.ts': {
+    'https://deno.land/x/hono@v3.12.7/helper/cookie/index.ts': {
       name: 'hono',
-      version: "3.5.8",
+      version: "3.12.7",
       subPath: 'cookie'
     },
-    'https://deno.land/x/hono@v3.5.8/utils/cookie.ts': {
+    'https://deno.land/x/hono@v3.12.7/utils/cookie.ts': {
       name: 'hono',
-      version: "3.5.8",
+      version: "3.12.7",
       subPath: 'utils/cookie'
     }
   }

@@ -4,7 +4,7 @@
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
-    "hono": "^3.5.8",
+    "hono": "^3.12.7",
     "hono-sessions": "file:../../npm"
   },
   "devDependencies": {
