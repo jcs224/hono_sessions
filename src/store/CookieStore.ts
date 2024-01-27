@@ -1,5 +1,5 @@
 import { Context, getCookie, setCookie, CookieOptions } from '../../deps.ts'
-import { encrypt, decrypt, SessionData, Session } from '../../mod.ts'
+import { encrypt, decrypt, SessionData } from '../../mod.ts'
 
 interface CookieStoreOptions {
   encryptionKey?: string | null,
