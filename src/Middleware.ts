@@ -1,5 +1,5 @@
 import { nanoid } from '../deps.ts'
-import { MiddlewareHandler, Context, getCookie, setCookie } from '../deps.ts'
+import { MiddlewareHandler, getCookie, setCookie } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
 import { Session, SessionData, encrypt, decrypt } from '../mod.ts'
@@ -37,7 +37,7 @@ export function sessionMiddleware(options: SessionOptions) {
 
   const middleware: MiddlewareHandler = async (c, next) => {
     const session = new Session
-    let sid: string = ''
+    let sid = ''
     let session_data: SessionData | null | undefined
     let createNewSession = false
 

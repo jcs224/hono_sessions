@@ -13,14 +13,16 @@ export async function MakeDenoStore(storeDriver: string | undefined): Promise<St
     case 'cookie':
       store = new CookieStore()
       break
-    case 'kv':
+    case 'kv': {
       const kv = await Deno.openKv('./tmp/sessions')
       store = new DenoKvStore(kv)
       break
-    case 'sqlite':
+    }
+    case 'sqlite': {
       const sqlite = new DB('./tmp/sessions.sqlite')
       store = new DenoSqliteStore(sqlite)
       break
+    }
     default:
       store = new MemoryStore()
       break

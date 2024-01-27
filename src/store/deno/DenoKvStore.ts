@@ -11,7 +11,7 @@ export class DenoKvStore implements Store {
   }
 
   async getSessionById(sessionId: string) {
-    let session = (await this.kv.get([this.collectionName, sessionId])).value
+    const session = (await this.kv.get([this.collectionName, sessionId])).value
     return session as SessionData
   }
 

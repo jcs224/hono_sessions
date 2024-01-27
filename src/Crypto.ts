@@ -1,6 +1,6 @@
 import { Iron } from '../deps.ts'
 
-export async function encrypt(password: string, payload: Object | string) {
+export async function encrypt(password: string, payload: object | string) {
   return await Iron.seal(globalThis.crypto, payload, password, Iron.defaults)
 }
 
