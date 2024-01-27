@@ -8,7 +8,7 @@ Hono Sessions is currently tested on these runtimes:
 - Deno
 - Cloudflare Workers
 - Bun
-- Node
+- Node (v20+)
 
 Other runtimes may work, but are untested. In addition to Hono's requirements, the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) is required for this library.
 
