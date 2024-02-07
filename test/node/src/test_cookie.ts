@@ -91,4 +91,10 @@ session_routes.get('/', (c) => {
 
 app.route('/', session_routes)
 
-serve(app)
+const port = 3000
+console.log(`Server is running on port ${port}`)
+
+serve({
+  fetch: app.fetch,
+  port
+})
