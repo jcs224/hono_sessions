@@ -16,7 +16,7 @@ jobs:
         node-version: 20
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: v1.36.4
+        deno-version: v1.40.3
     - name: Install dependencies
       working-directory: ./playwright
       run: npm ci
@@ -40,7 +40,7 @@ jobs:
         node-version: 20
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: v1.36.4
+        deno-version: v1.40.3
     - name: Install dependencies
       working-directory: ./playwright
       run: npm ci
@@ -63,7 +63,7 @@ jobs:
         node-version: 20
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: v1.36.4
+        deno-version: v1.40.3
     - name: Install dependencies
       working-directory: ./playwright
       run: npm ci
@@ -86,7 +86,7 @@ jobs:
         node-version: 20
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: v1.36.4
+        deno-version: v1.40.3
     - name: Install dependencies
       working-directory: ./playwright
       run: npm ci
@@ -110,7 +110,7 @@ jobs:
         node-version: 20
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: v1.36.4
+        deno-version: v1.40.3
     - uses: oven-sh/setup-bun@v1
       with:
         bun-version: 1.0.2
@@ -142,7 +142,7 @@ jobs:
         node-version: 20
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: v1.36.4
+        deno-version: v1.40.3
     - uses: oven-sh/setup-bun@v1
       with:
         bun-version: 1.0.2
@@ -173,7 +173,7 @@ jobs:
         node-version: 20
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: v1.36.4
+        deno-version: v1.40.3
     - name: Install dependencies
       working-directory: ./playwright
       run: npm ci
@@ -201,7 +201,7 @@ jobs:
         node-version: 20
     - uses: denoland/setup-deno@v1
       with:
-        deno-version: v1.36.4
+        deno-version: v1.40.3
     - name: Install dependencies
       working-directory: ./playwright
       run: npm ci
