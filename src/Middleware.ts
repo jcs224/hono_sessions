@@ -140,7 +140,7 @@ export function sessionMiddleware(options: SessionOptions) {
      */
     const shouldPersistSession =
       !shouldDelete &&
-      (shouldRotateSessionKey || !storeIsCookieStore);
+      (!shouldRotateSessionKey || storeIsCookieStore);
 
     if (shouldPersistSession) {
       store instanceof CookieStore
