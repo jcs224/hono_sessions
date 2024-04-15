@@ -169,6 +169,21 @@ import { sessionMiddleware, CookieStore, Session } from 'hono-sessions'
 export default app
 ```
 
+## Troubleshooting
+
+### TypeScript errors
+
+Hono has a high upgrade frequency, but the API for middleware this library relies on remains largely unchanged between Hono releases. You may experience a TypeScript error if you use this library with the latest version of Hono. In that case, before you load the middleware into your Hono app, you might want to have TypeScript ignore this error:
+
+```ts
+// @ts-ignore
+app.use('*', sessionMiddleware({
+  // ...
+}))
+```
+
+TypeScript should otherwise work normally.
+
 ## Contributing
 
 This package is built Deno-first, so you'll need to have Deno installed in your development environment. See their [website](https://deno.com/) for installation instructions specific to your platform.
