@@ -100,18 +100,52 @@ export function sessionMiddleware(options: SessionOptions) {
 
     await next()
 
-    if (c.get('session_key_rotation') === true && !(store instanceof CookieStore)) {
-      await store.deleteSession(sid)
-      sid = await nanoid(21)
-      await store.createSession(sid, session.getCache())
-
-      setCookie(c, sessionCookieName, encryptionKey ? await encrypt(encryptionKey, sid) : sid, cookieOptions)
+    const shouldDelete = session.getCache()._delete;
+    const shouldRotateSessionKey = c.get("session_key_rotation") === true;
+    const storeIsCookieStore = store instanceof CookieStore;
+    
+    if (shouldDelete) {
+      store instanceof CookieStore
+        ? await store.deleteSession(c)
+        : await store.deleteSession(sid);
     }
 
-    store instanceof CookieStore ? await store.persistSessionData(c, session.getCache()) : await store.persistSessionData(sid, session.getCache())
+    /*
+     * Only update session data if we didn't just delete it.
+     * If session key rotation is enabled and the store is not a CookieStore,
+     * we need to roate the session key by deleting the old session and creating a new one.
+     */
+    const shouldRecreateSessionForNonCookieStore =
+      !shouldDelete &&
+      !storeIsCookieStore &&
+      shouldRotateSessionKey;
 
-    if (session.getCache()._delete) {
-      store instanceof CookieStore ? await store.deleteSession(c) : await store.deleteSession(sid)
+    if (shouldRecreateSessionForNonCookieStore) {
+      await store.deleteSession(sid);
+      sid = await nanoid(21);
+      await store.createSession(sid, session.getCache());
+
+      setCookie(
+        c,
+        sessionCookieName,
+        encryptionKey ? await encrypt(encryptionKey, sid) : sid,
+        cookieOptions
+      );
+    }
+
+    /*
+     * We skip session data persistence if it was just deleted.
+     * Only persist if we didn't just rotate the session key,
+     * or the store is a CookieStore (which does not have its session key rotated)
+     */
+    const shouldPersistSession =
+      !shouldDelete &&
+      (!shouldRotateSessionKey || storeIsCookieStore);
+
+    if (shouldPersistSession) {
+      store instanceof CookieStore
+        ? await store.persistSessionData(c, session.getCache())
+        : await store.persistSessionData(sid, session.getCache());
     }
   }
 

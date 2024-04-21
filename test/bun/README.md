@@ -1,6 +1,11 @@
 ```
 bun install
-bun run dev
+
+# run using cookie store
+bun run dev:cookie
+
+# run using sqlite store
+bun run dev:sqlite
 ```
 
 ```

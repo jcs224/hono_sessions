@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev:cookie": "bun run --hot src/test_cookie.ts",
+    "dev:sqlite": "bun run --hot src/test_sqlite.ts"
   },
   "dependencies": {
     "hono": "3.12.8",
