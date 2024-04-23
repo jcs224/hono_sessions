@@ -36,23 +36,6 @@ await build({
   test: false,
   compilerOptions: {
     lib: ['DOM', 'ES2022']
-  },
-
-  mappings: {
-    'https://deno.land/x/hono@v3.12.8/mod.ts': {
-      name: 'hono',
-      version: "3.12.8",
-    },
-    'https://deno.land/x/hono@v3.12.8/helper/cookie/index.ts': {
-      name: 'hono',
-      version: "3.12.8",
-      subPath: 'cookie'
-    },
-    'https://deno.land/x/hono@v3.12.8/utils/cookie.ts': {
-      name: 'hono',
-      version: "3.12.8",
-      subPath: 'utils/cookie'
-    }
   }
 });
 
