@@ -1,5 +1,5 @@
-import { nanoid } from '../deps.ts'
-import { MiddlewareHandler, getCookie, setCookie } from '../deps.ts'
+import { MiddlewareHandler, nanoid } from '../deps.ts'
+import { getCookie, setCookie, createMiddleware } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
 import { Session, SessionData, encrypt, decrypt } from '../mod.ts'
@@ -13,7 +13,7 @@ interface SessionOptions {
   sessionCookieName?: string
 }
 
-export function sessionMiddleware(options: SessionOptions) {
+export function sessionMiddleware(options: SessionOptions): MiddlewareHandler<any, any, {}> {
 
   const store = options.store
   const encryptionKey = options.encryptionKey
@@ -35,7 +35,7 @@ export function sessionMiddleware(options: SessionOptions) {
     }
   }
 
-  const middleware: MiddlewareHandler = async (c, next) => {
+  const middleware = createMiddleware(async (c, next) => {
     const session = new Session
     let sid = ''
     let session_data: SessionData | null | undefined
@@ -147,7 +147,7 @@ export function sessionMiddleware(options: SessionOptions) {
         ? await store.persistSessionData(c, session.getCache())
         : await store.persistSessionData(sid, session.getCache());
     }
-  }
+  })
 
   return middleware
 }

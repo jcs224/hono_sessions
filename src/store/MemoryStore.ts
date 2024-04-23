@@ -8,7 +8,7 @@ class MemoryStore implements Store {
     this.data = new Map
   }
 
-  getSessionById(sid: string) {
+  getSessionById(sid: string): SessionData | null | undefined {
     return this.data.has(sid) ? this.data.get(sid) : null
   }
 
