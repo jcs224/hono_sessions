@@ -1,6 +1,9 @@
 import Store from './Store.ts'
 import { SessionData } from '../../mod.ts'
 
+/**
+ * Memory storage driver class
+ */
 class MemoryStore implements Store {
   private data: Map<string, SessionData>
 

@@ -3,6 +3,9 @@ interface SessionDataEntry {
   flash: boolean
 }
 
+/**
+ * Interface for specifying the necessary data for a session entry
+ */
 export interface SessionData {
   _data: Record<string, SessionDataEntry>,
   _expire: string | null,
@@ -10,6 +13,9 @@ export interface SessionData {
   _accessed: string | null,
 }
 
+/**
+ * Session class with methods for interacting with the session
+ */
 export class Session {
 
   private cache: SessionData

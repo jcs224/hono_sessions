@@ -6,6 +6,10 @@ interface CookieStoreOptions {
   cookieOptions?: CookieOptions,
   sessionCookieName: string
 }
+
+/**
+ * Cookie storage driver class
+ */
 class CookieStore {
   public encryptionKey: string | null | undefined
   public cookieOptions: CookieOptions | undefined

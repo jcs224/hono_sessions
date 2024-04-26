@@ -13,6 +13,7 @@ interface SessionOptions {
   sessionCookieName?: string
 }
 
+/** Function that returns a Hono-compatible session middleware */
 export function sessionMiddleware(options: SessionOptions): MiddlewareHandler<any, any, {}> {
 
   const store = options.store
