@@ -1,5 +1,5 @@
 {
   "name": "@jcs224/hono-sessions",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "exports": "./mod.ts"
 }
