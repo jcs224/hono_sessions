@@ -1,4 +1,4 @@
-name = "cloudflare_pages"
+name = "hono-sessions-cloudflare-pages"
 pages_build_output_dir = "./dist"
 
 # [vars]
