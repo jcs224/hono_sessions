@@ -1,4 +1,4 @@
-import { MiddlewareHandler, nanoid } from '../deps.ts'
+import { MiddlewareHandler } from '../deps.ts'
 import { getCookie, setCookie, createMiddleware } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
@@ -84,7 +84,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler<an
       if (store instanceof CookieStore) {
         await store.createSession(c, defaultData)
       } else {
-        sid = nanoid(21)
+        sid = globalThis.crypto.randomUUID()
         await store.createSession(sid, defaultData)
       }
 
@@ -123,7 +123,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler<an
 
     if (shouldRecreateSessionForNonCookieStore) {
       await store.deleteSession(sid);
-      sid = nanoid(21);
+      sid = globalThis.crypto.randomUUID();
       await store.createSession(sid, session.getCache());
 
       setCookie(

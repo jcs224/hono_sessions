@@ -1,4 +1,3 @@
-export { nanoid } from 'npm:nanoid@5.0.7'
 export type { Context, MiddlewareHandler } from 'npm:hono@3.12.8'
 export { createMiddleware } from 'npm:hono@3.12.8/factory'
 export { getCookie, setCookie } from 'npm:hono@3.12.8/cookie'
