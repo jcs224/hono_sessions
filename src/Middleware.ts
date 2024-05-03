@@ -84,7 +84,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler<an
       if (store instanceof CookieStore) {
         await store.createSession(c, defaultData)
       } else {
-        sid = await nanoid(21)
+        sid = nanoid(21)
         await store.createSession(sid, defaultData)
       }
 
@@ -123,7 +123,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler<an
 
     if (shouldRecreateSessionForNonCookieStore) {
       await store.deleteSession(sid);
-      sid = await nanoid(21);
+      sid = nanoid(21);
       await store.createSession(sid, session.getCache());
 
       setCookie(
