@@ -10,8 +10,8 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
@@ -34,8 +34,8 @@ jobs:
       STORE: cookie
       ENCRYPTION_KEY: password_at_least_32_characters_long
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
@@ -57,8 +57,8 @@ jobs:
     env:
       STORE: kv
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
@@ -80,8 +80,8 @@ jobs:
     env:
       STORE: sqlite
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
@@ -104,8 +104,8 @@ jobs:
       STORE: cookie
       JS_RUNTIME: bun
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
@@ -136,8 +136,8 @@ jobs:
       STORE: sqlite
       JS_RUNTIME: bun
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
@@ -167,8 +167,8 @@ jobs:
     env:
       JS_RUNTIME: cf_workers
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
@@ -195,8 +195,8 @@ jobs:
     env:
       JS_RUNTIME: cf_pages
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
@@ -226,8 +226,8 @@ jobs:
     env:
       JS_RUNTIME: node
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
     - uses: denoland/setup-deno@v1
