@@ -4,7 +4,7 @@
     "dev:sqlite": "bun run --hot src/test_sqlite.ts"
   },
   "dependencies": {
-    "hono": "3.12.8",
+    "hono": "^3.12.8",
     "hono-sessions": "../../npm"
   },
   "devDependencies": {
