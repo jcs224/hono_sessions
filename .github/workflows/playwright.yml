@@ -189,6 +189,37 @@ jobs:
       working-directory: ./playwright
       run: npx playwright test
 
+  test-cf-pages-cookie-store:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      JS_RUNTIME: cf_pages
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 20
+    - uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.40.3
+    - name: Install dependencies
+      working-directory: ./playwright
+      run: npm ci
+    - name: Install Playwright Browsers
+      working-directory: ./playwright
+      run: npx playwright install chromium
+    - name: Build NPM package for library
+      run: deno run -A scripts/build_npm.ts
+    - name: Install CF Pages example server
+      working-directory: ./test/cloudflare_pages
+      run: npm install
+    - name: Build Pages for preview
+      working-directory: ./test/cloudflare_pages
+      run: npm run build
+    - name: Run Playwright tests
+      working-directory: ./playwright
+      run: npx playwright test
+
   test-node-cookie-store:
     timeout-minutes: 60
     runs-on: ubuntu-latest

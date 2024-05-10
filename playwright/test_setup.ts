@@ -15,6 +15,9 @@ export function runtimeCommand() {
       command = `cd ../test/cloudflare_workers && npm run dev`
       server_url = 'http://127.0.0.1:8787'
       break
+    case 'cf_pages':
+      command = `cd ../test/cloudflare_pages && npm run preview`
+      server_url = 'http://127.0.0.1:8788'
     case 'node':
       command = `cd ../test/node && npm run test_cookie`
       server_url = 'http://127.0.0.1:3000'
