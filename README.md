@@ -7,6 +7,7 @@ Hono Sessions is currently tested on these runtimes:
 
 - Deno
 - Cloudflare Workers
+- Cloudflare Pages
 - Bun
 - Node (v20+)
 
@@ -156,7 +157,7 @@ export default {
 }
 ```
 
-### Cloudflare Workers
+### Cloudflare Workers / Pages
 
 ```ts
 import { Hono } from 'hono'
