@@ -48,7 +48,7 @@ npm install hono-sessions
 
 ### Deno
 ```ts
-import { Hono } from 'https://deno.land/x/hono@v3.12.8/mod.ts'
+import { Hono } from 'https://deno.land/x/hono/mod.ts'
 import { 
   Session,
   sessionMiddleware, 
@@ -93,7 +93,7 @@ Deno.serve(app.fetch)
 #### Using Deno KV storage driver
 
 ```ts
-import { Hono } from 'https://deno.land/x/hono@v3.12.8/mod.ts'
+import { Hono } from 'https://deno.land/x/hono/mod.ts'
 import { sessionMiddleware } from 'https://deno.land/x/hono_sessions/mod.ts'
 import { DenoKvStore } from 'https://deno.land/x/hono_sessions/src/store/deno/DenoKvStore.ts'
 
