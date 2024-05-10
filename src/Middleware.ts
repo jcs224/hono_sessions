@@ -1,4 +1,4 @@
-import { getCookie, setCookie, createMiddleware } from '../deps.ts'
+import { getCookie, setCookie, createMiddleware, MiddlewareHandler } from '../deps.ts'
 import Store from './store/Store.ts'
 import CookieStore from './store/CookieStore.ts'
 import { Session, SessionData, encrypt, decrypt } from '../mod.ts'
@@ -13,7 +13,7 @@ interface SessionOptions {
 }
 
 /** Function that returns a Hono-compatible session middleware */
-export function sessionMiddleware(options: SessionOptions) {
+export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
 
   const store = options.store
   const encryptionKey = options.encryptionKey
