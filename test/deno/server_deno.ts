@@ -1,5 +1,5 @@
-import { Hono } from 'npm:hono@^3.12.8'
-import { html } from 'npm:hono@^3.12.8/html'
+import { Hono } from 'npm:hono@^4.0.0'
+import { html } from 'npm:hono@^4.0.0/html'
 import { sessionMiddleware as session, Session } from '../../mod.ts'
 import { MakeDenoStore } from './MakeStore.ts'
 import 'https://deno.land/std@0.198.0/dotenv/load.ts'
