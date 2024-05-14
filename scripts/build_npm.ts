@@ -20,7 +20,7 @@ await build({
   package: {
     // package.json properties
     name: "hono-sessions",
-    version: Deno.args[0].replace('v', ''),
+    version: Deno.args[0]?.replace('v', ''),
     description: "Cookie-based sessions for Hono web framework",
     license: "MIT",
     repository: {
