@@ -42,3 +42,4 @@ await build({
 // post build steps
 Deno.copyFileSync("LICENSE", "npm/LICENSE");
 Deno.copyFileSync("README.md", "npm/README.md");
+Deno.copyFileSync("extras/.npmignore", "npm/.npmignore")
