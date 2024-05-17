@@ -4,27 +4,26 @@ on:
     types: [published]
 
 jobs:
-  # npm:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     id-token: write
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: actions/setup-node@v4
-  #     with:
-  #       node-version: 20
-  #       registry-url: 'https://registry.npmjs.org'
-  #   - uses: denoland/setup-deno@v1
-  #     with:
-  #       deno-version: v1.43.1
-  #   - name: Build NPM Package
-  #     run: deno run -A scripts/build_npm.ts ${{ github.event.release.tag_name }}
-  #   - name: Publish to NPM
-  #     working-directory: ./npm
-  #     run: npm publish --provenance
-  #     env:
-  #       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        registry-url: 'https://registry.npmjs.org'
+    - uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.43.1
+    - name: Build NPM Package
+      run: deno run -A scripts/build_npm.ts ${{ github.event.release.tag_name }}
+    - name: Publish to NPM
+      run: cd npm && npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   
   jsr:
     runs-on: ubuntu-latest
