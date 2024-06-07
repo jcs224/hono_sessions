@@ -7,9 +7,16 @@ import 'https://deno.land/std@0.198.0/dotenv/load.ts'
 const app = new Hono()
 const store = await MakeDenoStore(Deno.env.get('STORE'))
 
+type SessionDataTypes = {
+  'email': string
+  'failed-login-attempts': number | null
+  'message': string
+  'error': string
+}
+
 const session_routes = new Hono<{
   Variables: {
-    session: Session,
+    session: Session<SessionDataTypes>,
     session_key_rotation: boolean
   }
 }>()
@@ -32,7 +39,7 @@ session_routes.post('/login', async (c) => {
 
   if (password === 'correct') {
     c.set('session_key_rotation', true)
-    session.set('email', email)
+    session.set('email', email as string)
     session.set('failed-login-attempts', null)
     session.flash('message', 'Login Successful')
   } else {

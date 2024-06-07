@@ -1,24 +1,18 @@
-interface SessionDataEntry {
-  value: unknown,
+interface SessionDataEntry<T> {
+  value: T,
   flash: boolean
 }
 
-/**
- * Interface for specifying the necessary data for a session entry
- */
-export interface SessionData {
-  _data: Record<string, SessionDataEntry>,
+export interface SessionData<T> {
+  _data: Record<string, SessionDataEntry<T>>,
   _expire: string | null,
   _delete: boolean,
   _accessed: string | null,
 }
 
-/**
- * Session class with methods for interacting with the session
- */
-export class Session {
+export class Session<T> {
 
-  private cache: SessionData
+  private cache: SessionData<T>
 
   constructor() {
     this.cache = {
@@ -29,11 +23,11 @@ export class Session {
     }
   }
 
-  setCache(cache_data: SessionData) {
+  setCache(cache_data: SessionData<T>) {
     this.cache = cache_data
   }
 
-  getCache(): SessionData {
+  getCache(): SessionData<T> {
     return this.cache
   }
 
@@ -59,32 +53,36 @@ export class Session {
     this.cache._accessed = new Date().toISOString()
   }
 
-  get(key: string): unknown {
-    const entry = this.cache._data[key]
+  get<K extends keyof T>(key: K): T[K] | null {
+    const entry = this.cache._data[key as string]
 
     if (entry) {
       const value = entry.value
       if (entry.flash) {
-        delete this.cache._data[key]
+        delete this.cache._data[key as string]
       }
-  
-      return value
+
+      return value as T[K]
     } else {
       return null
     }
   }
 
-  set(key: string, value: unknown) {
-    this.cache._data[key] = {
-      value,
+  set<K extends keyof T>(key: K, value: T[K]) {
+    const entry: SessionDataEntry<T> = {
+      value: value as T,
       flash: false
     }
+
+    this.cache._data[key as string] = entry
   }
 
-  flash(key: string, value: unknown) {
-    this.cache._data[key] = {
-      value,
+  flash<K extends keyof T>(key: K, value: T[K]) {
+    const entry: SessionDataEntry<T> = {
+      value: value as T,
       flash: true
     }
+
+    this.cache._data[key as string] = entry
   }
 }
