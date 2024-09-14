@@ -10,7 +10,7 @@ export interface SessionData<T> {
   _accessed: string | null,
 }
 
-export class Session<T> {
+export class Session<T = any> {
 
   private cache: SessionData<T>
 
