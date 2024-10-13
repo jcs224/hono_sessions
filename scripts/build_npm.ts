@@ -1,5 +1,5 @@
 // ex. scripts/build_npm.ts
-import { build, emptyDir } from "https://deno.land/x/dnt@0.38.1/mod.ts";
+import { build, emptyDir } from "@deno/dnt";
 
 await emptyDir("./npm");
 
