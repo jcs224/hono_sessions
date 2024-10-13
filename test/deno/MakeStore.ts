@@ -1,7 +1,7 @@
 import { Store, CookieStore, MemoryStore } from '../../mod.ts'
 import { DenoKvStore } from '../../src/store/deno/DenoKvStore.ts'
 import { DenoSqliteStore } from '../../src/store/deno/DenoSqliteStore.ts'
-import { DB } from 'https://deno.land/x/sqlite@v3.8/mod.ts'
+import { DB } from 'https://deno.land/x/sqlite@v3.9.1/mod.ts'
 
 export async function MakeDenoStore(storeDriver: string | undefined): Promise<Store | CookieStore> {
   let store: Store | CookieStore
