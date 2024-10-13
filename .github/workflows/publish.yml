@@ -17,7 +17,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.43.1
+          deno-version: "2.0.0"
       - name: Build NPM Package
         run: deno run -A scripts/build_npm.ts ${{ github.event.release.tag_name }}
       - name: Publish to NPM
@@ -34,6 +34,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.43.1
+          deno-version: "2.0.0"
       - name: Publish to JSR
         run: deno publish
