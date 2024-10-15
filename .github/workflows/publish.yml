@@ -21,7 +21,7 @@ jobs:
       - name: Build NPM Package
         run: deno run -A scripts/build_npm.ts ${{ github.event.release.tag_name }}
       - name: Publish to NPM
-        run: cd npm && npm publish
+        run: cd npm && npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
