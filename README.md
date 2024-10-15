@@ -24,6 +24,7 @@ If you want to use a backend storage driver (instead of just storing session dat
 - Encrypted cookies thanks to [iron-webcrypto](https://github.com/brc-dd/iron-webcrypto)
 - Session expiration after inactivity
 - Session key rotation* 
+- Strong typing for session variables
 
 > *It is not necessary to rotate CookieStore sessions because of how a pure cookie session works (no server-side state). Therefore, using session key rotation will have no effect while using CookieStore.
 
@@ -55,9 +56,15 @@ import {
   CookieStore 
 } from 'https://deno.land/x/hono_sessions/mod.ts'
 
+// Add types to your session data (optional)
+type SessionDataTypes = {
+  'counter': number
+}
+
+// Set up your Hono instance, using your 
 const app = new Hono<{
   Variables: {
-    session: Session,
+    session: Session<SessionDataTypes>,
     session_key_rotation: boolean
   }
 }>()
@@ -79,7 +86,7 @@ app.get('/', async (c, next) => {
   const session = c.get('session')
 
   if (session.get('counter')) {
-    session.set('counter', session.get('counter') as number + 1)
+    session.set('counter', session.get('counter') + 1)
   } else {
     session.set('counter', 1)
   }
