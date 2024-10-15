@@ -1,6 +1,6 @@
 import Store from '../Store.ts'
 import { SessionData } from '../../Session.ts'
-import { DB } from 'https://deno.land/x/sqlite@v3.8/mod.ts'
+import { DB } from 'https://deno.land/x/sqlite@v3.9.1/mod.ts'
 
 export class DenoSqliteStore implements Store {
   db: DB
