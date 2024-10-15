@@ -61,7 +61,7 @@ type SessionDataTypes = {
   'counter': number
 }
 
-// Set up your Hono instance, using your 
+// Set up your Hono instance, using your types
 const app = new Hono<{
   Variables: {
     session: Session<SessionDataTypes>,
