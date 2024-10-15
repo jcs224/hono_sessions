@@ -85,11 +85,7 @@ app.use('*', sessionMiddleware({
 app.get('/', async (c, next) => {
   const session = c.get('session')
 
-  if (session.get('counter')) {
-    session.set('counter', session.get('counter') + 1)
-  } else {
-    session.set('counter', 1)
-  }
+  session.set('counter', (session.get('counter') || 0) + 1)
 
   return c.html(`<h1>You have visited this page ${ session.get('counter') } times</h1>`)
 })
