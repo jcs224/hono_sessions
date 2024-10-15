@@ -3,7 +3,7 @@ interface SessionDataEntry<T> {
   flash: boolean
 }
 
-export interface SessionData<T> {
+export interface SessionData<T = any> {
   _data: Record<string, SessionDataEntry<T>>,
   _expire: string | null,
   _delete: boolean,
