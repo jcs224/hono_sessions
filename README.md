@@ -20,7 +20,7 @@ If you want to use a backend storage driver (instead of just storing session dat
 
 ### 🛠️ Features
 - Flash messages — data that is deleted once it's read (one-off error messages, etc.)
-- Built-in Memory and Cookie storage drivers (more coming soon)
+- Built-in Memory and Cookie storage drivers, as well as [community-supported drivers](https://github.com/jcs224/hono_sessions/wiki)
 - Encrypted cookies thanks to [iron-webcrypto](https://github.com/brc-dd/iron-webcrypto)
 - Session expiration after inactivity
 - Session key rotation* 
