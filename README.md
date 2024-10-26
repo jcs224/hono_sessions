@@ -32,11 +32,17 @@ If you want to use a backend storage driver (instead of just storing session dat
 
 ### Deno
 
-Simply include the package from `deno.land/x`
+Simply include the package from [JSR](https://jsr.io/@jcs224/hono-sessions) or [NPM](https://www.npmjs.com/package/hono-sessions)
 
 ```ts
-import { sessionMiddleware } from 'https://deno.land/x/hono_sessions/mod.ts'
+// JSR
+import { sessionMiddleware } from 'jsr:@jcs224/hono-sessions'
+
+// NPM
+import { sessionMiddleware } from 'npm:hono-sessions'
 ```
+
+You can also use `deno add` and not need the `jsr:` specifier. 
 
 ### Node, Bun, Cloudflare Workers, etc.
 
@@ -49,12 +55,12 @@ npm install hono-sessions
 
 ### Deno
 ```ts
-import { Hono } from 'https://deno.land/x/hono/mod.ts'
+import { Hono } from 'npm:hono'
 import { 
   Session,
   sessionMiddleware, 
   CookieStore 
-} from 'https://deno.land/x/hono_sessions/mod.ts'
+} from 'jsr:@jcs224/hono-sessions'
 
 // Add types to your session data (optional)
 type SessionDataTypes = {
@@ -96,8 +102,8 @@ Deno.serve(app.fetch)
 #### Using Deno KV storage driver
 
 ```ts
-import { Hono } from 'https://deno.land/x/hono/mod.ts'
-import { sessionMiddleware } from 'https://deno.land/x/hono_sessions/mod.ts'
+import { Hono } from 'npm:hono'
+import { sessionMiddleware } from 'jsr:@jcs224/hono-sessions'
 import { DenoKvStore } from 'https://deno.land/x/hono_sessions/src/store/deno/DenoKvStore.ts'
 
 const app = new Hono()
