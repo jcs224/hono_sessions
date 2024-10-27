@@ -51,52 +51,6 @@ jobs:
         working-directory: ./playwright
         run: npx playwright test
 
-  test-deno-kv-store:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    env:
-      STORE: kv
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: "2.0.0"
-      - name: Install dependencies
-        working-directory: ./playwright
-        run: npm ci
-      - name: Install Playwright Browsers
-        working-directory: ./playwright
-        run: npx playwright install chromium
-      - name: Run Playwright tests
-        working-directory: ./playwright
-        run: npx playwright test
-
-  test-deno-sqlite-store:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    env:
-      STORE: sqlite
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: "2.0.0"
-      - name: Install dependencies
-        working-directory: ./playwright
-        run: npm ci
-      - name: Install Playwright Browsers
-        working-directory: ./playwright
-        run: npx playwright install chromium
-      - name: Run Playwright tests
-        working-directory: ./playwright
-        run: npx playwright test
-
   test-bun-cookie-store:
     timeout-minutes: 60
     runs-on: ubuntu-latest

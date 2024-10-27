@@ -13,11 +13,6 @@ Hono Sessions is currently tested on these runtimes:
 
 Other runtimes may work, but are untested. In addition to Hono's requirements, the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) is required for this library.
 
-If you want to use a backend storage driver (instead of just storing session data in an encrypted cookie), you'll need to use a storage engine provided by Hono Sessions. Right now, those include:
-
-- Deno KV
-- Bun SQLite
-
 ### 🛠️ Features
 - Flash messages — data that is deleted once it's read (one-off error messages, etc.)
 - Built-in Memory and Cookie storage drivers, as well as [community-supported drivers](https://github.com/jcs224/hono_sessions/wiki)
@@ -97,29 +92,6 @@ app.get('/', async (c, next) => {
 })
 
 Deno.serve(app.fetch)
-```
-
-#### Using Deno KV storage driver
-
-```ts
-import { Hono } from 'npm:hono'
-import { sessionMiddleware } from 'jsr:@jcs224/hono-sessions'
-import { DenoKvStore } from 'https://deno.land/x/hono_sessions/src/store/deno/DenoKvStore.ts'
-
-const app = new Hono()
-
-const kv = await Deno.openKv()
-const store = new DenoKvStore(kv)
-
-app.use('*', sessionMiddleware({
-  store,
-  // ... other session options
-}))
-
-// Other app code
-
-Deno.serve(app.fetch)
-
 ```
 
 ### Bun
