@@ -13,10 +13,12 @@
     "jsr:@std/fs@1": "1.0.4",
     "jsr:@std/fs@~0.229.3": "0.229.3",
     "jsr:@std/io@0.223": "0.223.0",
+    "jsr:@std/path@*": "1.0.6",
     "jsr:@std/path@0.223": "0.223.0",
-    "jsr:@std/path@1": "1.0.6",
+    "jsr:@std/path@1": "1.0.7",
     "jsr:@std/path@1.0.0-rc.1": "1.0.0-rc.1",
-    "jsr:@std/path@^1.0.6": "1.0.6",
+    "jsr:@std/path@^1.0.6": "1.0.7",
+    "jsr:@std/path@^1.0.7": "1.0.7",
     "jsr:@std/path@~0.225.2": "0.225.2",
     "jsr:@ts-morph/bootstrap@0.24": "0.24.0",
     "jsr:@ts-morph/common@0.24": "0.24.0",
@@ -103,6 +105,9 @@
     },
     "@std/path@1.0.6": {
       "integrity": "ab2c55f902b380cf28e0eec501b4906e4c1960d13f00e11cfbcd21de15f18fed"
+    },
+    "@std/path@1.0.7": {
+      "integrity": "76a689e07f0e15dcc6002ec39d0866797e7156629212b28f27179b8a5c3b33a1"
     },
     "@ts-morph/bootstrap@0.24.0": {
       "integrity": "a826a2ef7fa8a7c3f1042df2c034d20744d94da2ee32bf29275bcd4dffd3c060",
@@ -291,7 +296,8 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@deno/dnt@~0.41.3"
+      "jsr:@deno/dnt@~0.41.3",
+      "jsr:@std/path@^1.0.7"
     ]
   }
 }

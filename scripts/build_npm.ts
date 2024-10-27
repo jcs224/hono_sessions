@@ -1,5 +1,8 @@
 // ex. scripts/build_npm.ts
 import { build, emptyDir } from "@deno/dnt";
+import { fromFileUrl, dirname } from '@std/path'
+
+const version = JSON.parse(await Deno.readTextFile(dirname(fromFileUrl(import.meta.url)) + '/../deno.json')).version
 
 await emptyDir("./npm");
 
@@ -17,7 +20,7 @@ await build({
   package: {
     // package.json properties
     name: "hono-sessions",
-    version: Deno.args[0]?.replace('v', ''),
+    version,
     description: "Cookie-based sessions for Hono web framework",
     license: "MIT",
     repository: {

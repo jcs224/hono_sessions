@@ -19,7 +19,7 @@ jobs:
         with:
           deno-version: "2.0.0"
       - name: Build NPM Package
-        run: deno run -A scripts/build_npm.ts ${{ github.event.release.tag_name }}
+        run: deno run -A scripts/build_npm.ts
       - name: Publish to NPM
         run: cd npm && npm publish --provenance
         env:

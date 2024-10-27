@@ -1,8 +1,9 @@
 {
   "name": "@jcs224/hono-sessions",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "exports": "./mod.ts",
   "imports": {
-    "@deno/dnt": "jsr:@deno/dnt@^0.41.3"
+    "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
+    "@std/path": "jsr:@std/path@^1.0.7"
   }
 }
