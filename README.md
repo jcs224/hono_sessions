@@ -15,7 +15,7 @@ Other runtimes may work, but are untested. In addition to Hono's requirements, t
 
 ### 🛠️ Features
 - Flash messages — data that is deleted once it's read (one-off error messages, etc.)
-- Built-in Memory and Cookie storage drivers, as well as [community-supported drivers](https://github.com/jcs224/hono_sessions/wiki)
+- Built-in Memory and Cookie storage drivers, as well as [community-supported drivers](https://github.com/jcs224/hono_sessions/wiki) and the ability to [create your own storage driver](https://github.com/jcs224/hono_sessions/wiki/Creating-a-custom-storage-driver)
 - Encrypted cookies thanks to [iron-webcrypto](https://github.com/brc-dd/iron-webcrypto)
 - Session expiration after inactivity
 - Session key rotation* 
