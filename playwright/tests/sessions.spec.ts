@@ -26,6 +26,9 @@ test('logs in a user after several mistakes', async ({ page }) => {
   await page.locator('#email').fill('test@test.com')
   await page.locator('#password').fill('correct')
   await page.locator('#login-button').click()
+  
+  // expect failed-login-attempts to not exist in the DOM
+  await expect(page.locator('#failed-login-attempts')).toBeHidden()  
   await expect(page.locator('#message')).toContainText('Login Successful')
 
   await page.goto(runtimeCommand().server_url + '/')
