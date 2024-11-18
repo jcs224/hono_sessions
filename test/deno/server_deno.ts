@@ -40,7 +40,7 @@ session_routes.post('/login', async (c) => {
   if (password === 'correct') {
     c.set('session_key_rotation', true)
     session.set('email', email as string)
-    session.set('failed-login-attempts', null)
+    session.forget('failed-login-attempts')
     session.flash('message', 'Login Successful')
   } else {
     const failedLoginAttempts = (session.get('failed-login-attempts') || 0) as number
