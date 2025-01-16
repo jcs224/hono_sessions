@@ -77,6 +77,12 @@ export class Session<T = any> {
     this.cache._data[key as string] = entry
   }
 
+  forget<K extends keyof T>(key: K) {
+    const entry = this.cache._data[key as string]
+    if (!entry) return
+    delete this.cache._data[key as string]
+  }
+
   flash<K extends keyof T>(key: K, value: T[K]) {
     const entry: SessionDataEntry<T> = {
       value: value as T,
