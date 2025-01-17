@@ -151,6 +151,18 @@ import { sessionMiddleware, CookieStore, Session } from 'hono-sessions'
 export default app
 ```
 
+## API
+
+The `session` object returned from `c.get('session')` has several methods:
+
+- `get(id: string)`: Fetch the value from a given key.
+
+- `set(id: string, value: any)`: Set a value that can be serialized with `JSON.stringify()`
+
+- `flash(id: string, value: any)`: Similar to `set()`, however the value is deleted immediately after it's read once. Best used for one-off alerts or form validation messages (login failure, etc.)
+
+- `forget(id: string)`: Remove a value from the session based on its key
+
 ## Troubleshooting
 
 ### TypeScript errors
