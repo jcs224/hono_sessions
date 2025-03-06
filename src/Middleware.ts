@@ -7,19 +7,29 @@ import SessionOptions from './SessionOptions.ts'
 export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
 
   const store = options.store
-  const encryptionKey = options.encryptionKey
+  let encryptionKey: string;
   const expireAfterSeconds = options.expireAfterSeconds
   const cookieOptions = options.cookieOptions
   const sessionCookieName = options.sessionCookieName || 'session'
 
   if (store instanceof CookieStore) {
     store.sessionCookieName = sessionCookieName
-  
-    if (encryptionKey) {
-      store.encryptionKey = encryptionKey
-    } else {
-      throw new Error('encryptionKey is required while using CookieStore. encryptionKey must be at least 32 characters long.')
+
+    if (options.encryptionKey === undefined) {
+      throw new Error('encryptionKey is required while using CookieStore.');
     }
+
+    if (typeof options.encryptionKey === 'function') {
+      encryptionKey = options.encryptionKey();
+    } else {
+      encryptionKey = options.encryptionKey;
+    }
+
+    if (encryptionKey.length < 32) {
+      throw new Error('encryptionKey must be at least 32 characters long.');
+    }
+
+    store.encryptionKey = encryptionKey
   
     if (cookieOptions) {
       store.cookieOptions = cookieOptions
