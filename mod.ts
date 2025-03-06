@@ -10,6 +10,7 @@ import { sessionMiddleware } from './src/Middleware.ts'
 import { Session } from './src/Session.ts'
 import type { SessionData } from './src/Session.ts'
 import Store from './src/store/Store.ts'
+import type SessionOptions from './src/SessionOptions.ts'
 
 export {
   MemoryStore,
@@ -22,5 +23,6 @@ export {
 
 export type {
   SessionData,
+  SessionOptions,
   Store
 }
