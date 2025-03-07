@@ -25,6 +25,7 @@
     "npm:hono@3.12.8": "3.12.8",
     "npm:hono@4": "4.6.4",
     "npm:iron-webcrypto@0.10.1": "0.10.1",
+    "npm:iron-webcrypto@^1.2.1": "1.2.1",
     "npm:nanoid@5.0.7": "5.0.7"
   },
   "jsr": {
@@ -132,6 +133,9 @@
     },
     "iron-webcrypto@0.10.1": {
       "integrity": "sha512-QGOS8MRMnj/UiOa+aMIgfyHcvkhqNUsUxb1XzskENvbo+rEfp6TOwqd1KPuDzXC4OnGHcMSVxDGRoilqB8ViqA=="
+    },
+    "iron-webcrypto@1.2.1": {
+      "integrity": "sha512-feOM6FaSr6rEABp/eDfVseKyTMDt+KGpeB35SkVn9Tyn0CqvVsY3EwI0v5i8nMHyJnzCIQf7nsy3p41TPkJZhg=="
     },
     "nanoid@5.0.7": {
       "integrity": "sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ=="
