@@ -42,6 +42,10 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
         try {
           sid = (encryptionKey ? await decrypt(encryptionKey, sessionCookie) : sessionCookie) as string
           session_data = await store.getSessionById(sid)
+          
+          if (session_data) {
+            session_data._id = sid
+          }
         } catch {
           createNewSession = true
         }
@@ -64,7 +68,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
     }
 
     if (createNewSession) {
-      const defaultData = {
+      const defaultData : SessionData = {
         _data:{},
         _expire: null,
         _delete: false,
@@ -75,6 +79,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
         await store.createSession(c, defaultData)
       } else {
         sid = globalThis.crypto.randomUUID()
+        defaultData._id = sid
         await store.createSession(sid, defaultData)
       }
 

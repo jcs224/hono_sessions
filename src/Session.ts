@@ -4,6 +4,7 @@ interface SessionDataEntry<T> {
 }
 
 export interface SessionData<T = any> {
+  _id?: string, // No id used with cookie store
   _data: Record<string, SessionDataEntry<T>>,
   _expire: string | null,
   _delete: boolean,
