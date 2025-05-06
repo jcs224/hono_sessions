@@ -91,6 +91,14 @@ app.get('/', async (c, next) => {
   return c.html(`<h1>You have visited this page ${ session.get('counter') } times</h1>`)
 })
 
+app.get('/read', (c) => {
+  const session = c.get('session')
+  session.touch() // Update the session expiration time
+  return c.json({
+    counter: session.get('counter')
+  })
+})
+
 Deno.serve(app.fetch)
 ```
 
