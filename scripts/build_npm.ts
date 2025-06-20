@@ -30,6 +30,9 @@ await build({
     bugs: {
       url: "https://github.com/jcs224/hono_sessions/issues",
     },
+    devDependencies: {
+      "@types/object-hash": "^3.0.0",
+    }
   },
   // typeCheck: false,
   // scriptModule: false,
