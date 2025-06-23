@@ -7,5 +7,6 @@ export default interface SessionOptions {
   encryptionKey?: string | (() => string),
   expireAfterSeconds?: number,
   cookieOptions?: CookieOptions,
-  sessionCookieName?: string
+  sessionCookieName?: string,
+  autoExtendExpiration?: boolean
 }
