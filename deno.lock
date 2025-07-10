@@ -1,5 +1,5 @@
 {
-  "version": "4",
+  "version": "5",
   "specifiers": {
     "jsr:@david/code-block-writer@^13.0.2": "13.0.3",
     "jsr:@deno/cache-dir@~0.10.3": "0.10.3",
@@ -28,7 +28,9 @@
     "npm:hono@4": "4.6.4",
     "npm:iron-webcrypto@0.10.1": "0.10.1",
     "npm:iron-webcrypto@^1.2.1": "1.2.1",
-    "npm:nanoid@5.0.7": "5.0.7"
+    "npm:nanoid@5.0.7": "5.0.7",
+    "npm:ohash@*": "2.0.11",
+    "npm:ohash@2": "2.0.11"
   },
   "jsr": {
     "@david/code-block-writer@13.0.3": {
@@ -164,6 +166,9 @@
     "nanoid@5.0.7": {
       "integrity": "sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==",
       "bin": true
+    },
+    "ohash@2.0.11": {
+      "integrity": "sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ=="
     },
     "sort-keys@5.1.0": {
       "integrity": "sha512-aSbHV0DaBcr7u0PVHXzM6NbZNAtrr9sF6+Qfs9UUVG7Ll3jQ6hHi8F/xqIIcn2rvIVbr0v/2zyjSdwSV47AgLQ==",
