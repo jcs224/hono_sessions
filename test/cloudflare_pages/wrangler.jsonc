@@ -1,0 +1,6 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cloudflare_pages",
+  "compatibility_date": "2025-07-10",
+  "pages_build_output_dir": "./dist"
+}
