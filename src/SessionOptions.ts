@@ -4,7 +4,7 @@ import { CookieOptions } from '../deps.ts';
 
 export default interface SessionOptions {
   store: Store | CookieStore
-  encryptionKey?: string,
+  encryptionKey?: string | (() => string),
   expireAfterSeconds?: number,
   cookieOptions?: CookieOptions,
   sessionCookieName?: string,

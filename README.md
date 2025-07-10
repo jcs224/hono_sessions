@@ -74,7 +74,9 @@ const store = new CookieStore()
 
 app.use('*', sessionMiddleware({
   store,
-  encryptionKey: 'password_at_least_32_characters_long', // Required for CookieStore, recommended for others
+  encryptionKey: 'password_at_least_32_characters_long', // Required for CookieStore, recommended for others.
+  // You can also supply a function instead of a plain string
+  // encryptionKey: () => 'function_that_returns_a_long_string'
   expireAfterSeconds: 900, // Expire session after 15 minutes of inactivity
   cookieOptions: {
     sameSite: 'Lax', // Recommended for basic CSRF protection in modern browsers

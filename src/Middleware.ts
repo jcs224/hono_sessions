@@ -7,11 +7,21 @@ import SessionOptions from './SessionOptions.ts'
 export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
 
   const store = options.store
-  const encryptionKey = options.encryptionKey
+  let encryptionKey: string | undefined
   const expireAfterSeconds = options.expireAfterSeconds
   const cookieOptions = options.cookieOptions
   const sessionCookieName = options.sessionCookieName || 'session'
   const autoExtendExpiration = options.autoExtendExpiration ?? true
+
+  if (options.encryptionKey !== undefined) {
+    if (typeof options.encryptionKey === 'function') {
+      encryptionKey = options.encryptionKey()
+    } else {
+      encryptionKey = options.encryptionKey
+    }
+  } else {
+    encryptionKey = undefined
+  }
 
   if (store instanceof CookieStore) {
     store.sessionCookieName = sessionCookieName
