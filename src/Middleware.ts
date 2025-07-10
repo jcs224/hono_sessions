@@ -11,7 +11,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
   const expireAfterSeconds = options.expireAfterSeconds
   const cookieOptions = options.cookieOptions
   const sessionCookieName = options.sessionCookieName || 'session'
-  const autoExtendExpiration = options.autoExtendExpiration ?? false
+  const autoExtendExpiration = options.autoExtendExpiration ?? true
 
   if (store instanceof CookieStore) {
     store.sessionCookieName = sessionCookieName
