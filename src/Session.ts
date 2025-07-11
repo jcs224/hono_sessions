@@ -1,3 +1,5 @@
+import { hash } from '../deps.ts'
+
 interface SessionDataEntry<T> {
   value: T,
   flash: boolean
@@ -14,8 +16,11 @@ export interface SessionData<T = any> {
 export class Session<T = any> {
 
   private cache: SessionData<T>
+  private expiration: number | undefined
+  private hash: string | null = null
 
-  constructor() {
+  constructor(expiration?: number) {
+    this.expiration = expiration
     this.cache = {
       _data: {},
       _expire: null,
@@ -24,8 +29,13 @@ export class Session<T = any> {
     }
   }
 
-  setCache(cache_data: SessionData<T>) {
+  setCache(cache_data: SessionData<T>, isNew: boolean = false) {
+    this.hash = !isNew ? hash(cache_data) : null
     this.cache = cache_data
+  }
+
+  isStale(): boolean {
+    return !this.hash || this.hash !== hash(this.cache)
   }
 
   getCache(): SessionData<T> {
@@ -36,10 +46,21 @@ export class Session<T = any> {
     this.cache._expire = expiration
   }
 
-  reupSession(expiration: number | null | undefined) {
-    if (expiration) {
-      this.setExpiration(new Date(Date.now() + expiration * 1000).toISOString())
+  /**
+   * Extend expiration
+   */
+  reupSession() {
+    if (this.expiration) {
+      this.setExpiration(new Date(Date.now() + this.expiration * 1000).toISOString())
     }
+  }
+
+  /**
+   * Extend session expiration and update access time
+   */
+  touch() {
+    this.reupSession()
+    this.updateAccess()
   }
 
   deleteSession() {
@@ -50,6 +71,9 @@ export class Session<T = any> {
     return this.cache._expire == null || Date.now() < new Date(this.cache._expire).getTime()
   }
 
+  /**
+   * Update the last accessed time
+   */
   updateAccess() {
     this.cache._accessed = new Date().toISOString()
   }

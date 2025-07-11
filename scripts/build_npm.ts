@@ -29,7 +29,7 @@ await build({
     },
     bugs: {
       url: "https://github.com/jcs224/hono_sessions/issues",
-    },
+    }
   },
   // typeCheck: false,
   // scriptModule: false,
