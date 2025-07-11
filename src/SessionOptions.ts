@@ -8,5 +8,6 @@ export default interface SessionOptions {
   expireAfterSeconds?: number,
   cookieOptions?: CookieOptions,
   sessionCookieName?: string,
-  autoExtendExpiration?: boolean
+  autoExtendExpiration?: boolean,
+  alwaysSetCookie?: boolean,
 }

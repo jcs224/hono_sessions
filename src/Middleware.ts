@@ -12,6 +12,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
   const cookieOptions = options.cookieOptions
   const sessionCookieName = options.sessionCookieName || 'session'
   const autoExtendExpiration = options.autoExtendExpiration ?? true
+  const alwaysSetCookie = options.alwaysSetCookie ?? true
 
   if (options.encryptionKey !== undefined) {
     if (typeof options.encryptionKey === 'function') {
@@ -99,7 +100,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
       session.setCache(defaultData, true)
     }
   
-    if (!(store instanceof CookieStore)) {
+    if (!(store instanceof CookieStore) && (createNewSession || alwaysSetCookie)) {
       setCookie(c, sessionCookieName, encryptionKey ? await encrypt(encryptionKey, sid) : sid, cookieOptions)
     }
 
