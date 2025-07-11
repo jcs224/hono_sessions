@@ -78,6 +78,7 @@ app.use('*', sessionMiddleware({
   // You can also supply a function instead of a plain string
   // encryptionKey: () => 'function_that_returns_a_long_string'
   expireAfterSeconds: 900, // Expire session after 15 minutes of inactivity
+  autoExtendExpiration: true, // Extend the session expiration time automatically. Defaults to true
   cookieOptions: {
     sameSite: 'Lax', // Recommended for basic CSRF protection in modern browsers
     path: '/', // Required for this library to work properly
