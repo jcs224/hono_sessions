@@ -4,14 +4,16 @@ import { fromFileUrl, dirname } from '@std/path'
 
 const version = JSON.parse(await Deno.readTextFile(dirname(fromFileUrl(import.meta.url)) + '/../deno.json')).version
 
-await emptyDir("./npm");
+const DIST_DIR = "./npm";
+
+await emptyDir(DIST_DIR);
 
 await build({
   entryPoints: ["./mod.ts", {
     name: './bun-sqlite-store',
     path: './src/store/bun/BunSqliteStore.ts'
   }],
-  outDir: "./npm",
+  outDir: DIST_DIR,
   shims: {
     // see JS docs for overview and more options
     // deno: true,
