@@ -1,6 +1,6 @@
 // ex. scripts/build_npm.ts
 import { build, emptyDir } from "@deno/dnt";
-import { fromFileUrl, dirname } from '@std/path'
+import { fromFileUrl, dirname, join } from '@std/path'
 
 const version = JSON.parse(await Deno.readTextFile(dirname(fromFileUrl(import.meta.url)) + '/../deno.json')).version
 
@@ -40,6 +40,50 @@ await build({
     lib: ['DOM', 'ES2022']
   }
 });
+
+const dependenciesMapping = [
+  {
+    name: "hono",
+    version: "^4.0.0",
+    peerDependency: true,
+  }
+];
+
+// Patch package.json to add peer dependencies and remove dev dependencies
+// This is required because dnt doesn't support peer dependencies for NPM packages yet
+// See https://github.com/denoland/dnt/issues/433 for details
+async function fixPeerDependencies() {
+  const packageJsonPath = join(DIST_DIR, "package.json");
+  const packageJson = JSON.parse(await Deno.readTextFile(packageJsonPath));
+
+  const dependencies = packageJson.dependencies || {};
+  const peerDependencies = packageJson.peerDependencies || {};
+
+  for (const value of dependenciesMapping) {
+    if (typeof value === "string") {
+      continue;
+    }
+
+    const { name, version, peerDependency } = value;
+
+    if (peerDependency) {
+      peerDependencies[name] = version;
+      delete dependencies[name];
+    } else {
+      dependencies[name] = version;
+    }
+  }
+
+  packageJson.dependencies = dependencies;
+  packageJson.peerDependencies = peerDependencies;
+
+  await Deno.writeTextFile(
+    packageJsonPath,
+    JSON.stringify(packageJson, null, 2),
+  );
+}
+
+await fixPeerDependencies();
 
 // post build steps
 Deno.copyFileSync("LICENSE", "npm/LICENSE");
