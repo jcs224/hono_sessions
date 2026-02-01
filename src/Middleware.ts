@@ -43,7 +43,7 @@ export function sessionMiddleware(options: SessionOptions): MiddlewareHandler {
     let session_data: SessionData | null | undefined
     let createNewSession = false
 
-    const sessionCookie = getCookie(c, sessionCookieName)
+    const sessionCookie = getCookie(c, sessionCookieName, cookieOptions?.prefix)
   
     if (sessionCookie) { // If there is a session cookie present...
 

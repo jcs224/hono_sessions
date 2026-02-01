@@ -4,6 +4,7 @@
   "exports": "./mod.ts",
   "imports": {
     "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
-    "@std/path": "jsr:@std/path@^1.0.7"
+    "@std/path": "jsr:@std/path@^1.0.7",
+    "hono": "npm:hono@^4.0.0"
   }
 }

@@ -24,7 +24,7 @@ class CookieStore {
   async getSession(c: Context): Promise<SessionData | null> {
     let session_data_raw: string
 
-    const sessionCookie = getCookie(c, this.sessionCookieName)
+    const sessionCookie = getCookie(c, this.sessionCookieName, this.cookieOptions?.prefix)
 
     if (this.encryptionKey && sessionCookie) {
       // Decrypt cookie string. If decryption fails, return null
